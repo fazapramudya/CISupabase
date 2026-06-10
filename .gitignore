@@ -18,6 +18,9 @@ test-results/
 login_debug.png
 *.png
 
+# Downloaded address files
+downloads/
+
 # OS
 .DS_Store
 Thumbs.db

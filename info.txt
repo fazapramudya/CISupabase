@@ -1,0 +1,158 @@
+============================================================
+  PROJECT: CrewInspector → Supabase
+  Automation scripts for scraping and downloading seafarer data
+============================================================
+
+------------------------------------------------------------
+scraper.py
+------------------------------------------------------------
+  What it does:
+    Logs into CrewInspector and scrapes seafarer headcount
+    statistics, then saves the results into Supabase.
+
+  Data collected:
+    - seafarer_by_country      : active / inactive / total per nationality
+    - seafarer_by_rank         : active / inactive / total per rank (global)
+    - seafarer_by_country_rank : active / inactive / total per country + rank combo
+
+  Usage:
+    python scraper.py           → full run (249 countries × 270 ranks)
+    python scraper.py --test    → test run (5 countries × 5 ranks only)
+
+  Notes:
+    - Creates a row in scrape_runs for each run (status: running → completed / failed)
+    - The full run covers ~67,000 combinations and takes several hours
+    - Browser opens visibly so you can watch progress
+
+------------------------------------------------------------
+cleanup_runs.py
+------------------------------------------------------------
+  What it does:
+    Deletes specific scrape runs (and all their child rows)
+    from Supabase. Useful for removing bad or test runs.
+
+  Usage:
+    1. Open the file and edit the BAD_RUN_IDS list
+       e.g.  BAD_RUN_IDS = [1, 2, 5]
+    2. python cleanup_runs.py
+
+  Notes:
+    - Child rows in seafarer_by_country, seafarer_by_rank, and
+      seafarer_by_country_rank are deleted automatically via
+      ON DELETE CASCADE
+    - Prints remaining runs after deletion
+
+------------------------------------------------------------
+download_address_xls.py
+------------------------------------------------------------
+  What it does:
+    Downloads the "Address XLS" file from CrewInspector for
+    each country in country.txt. Each file contains the full
+    address and contact details of ALL seafarers (active +
+    inactive) from that country.
+
+  Output:
+    downloads/<ISO_CODE>.xls    e.g. downloads/PHL.xls
+
+  Usage:
+    python download_address_xls.py                      → all countries
+    python download_address_xls.py --test               → first 5 countries only
+    python download_address_xls.py --country PHL,IDN    → specific ISO codes
+
+  Notes:
+    - Skips countries that already have a downloaded file (safe to resume)
+    - Skips countries where the "Address xls" button does not appear
+      (meaning no seafarers found for that country)
+    - "Only active" checkbox is unchecked so both active and inactive
+      seafarers are included
+    - ESP (Spain) is automatically skipped — too large for a single
+      download. Use download_spain_by_rank.py for Spain instead.
+    - To skip other oversized countries in the future, add their ISO
+      code to the LARGE_COUNTRIES set at the top of the file
+
+------------------------------------------------------------
+import_address_xls.py
+------------------------------------------------------------
+  What it does:
+    Reads all .xls and .xlsx files from the downloads/ folder
+    and upserts the seafarer address data into the Supabase
+    table seafarer_addresses.
+
+  Requires:
+    - Run schema_address.sql in Supabase SQL Editor first
+    - Files already downloaded by download_address_xls.py
+      and/or download_spain_by_rank.py
+
+  Usage:
+    python import_address_xls.py                → import all files
+    python import_address_xls.py --test         → first 3 files only
+    python import_address_xls.py PHL IDN ESP    → specific ISO codes
+
+  Notes:
+    - Handles both .xls (raw per-country downloads) and .xlsx
+      (combined files produced by download_spain_by_rank.py)
+    - If both ESP.xls and ESP.xlsx exist, ESP.xlsx is used and
+      ESP.xls is ignored (xlsx is the clean deduplicated version)
+    - Uses upsert (insert or update) on seaman_id, so re-running
+      is safe and will not create duplicates in Supabase
+    - Columns imported: seaman_id, rank, name, surname, relation,
+      country, country_code, city, county, street, postal_code,
+      email, phone, mobile, payroll_id
+
+------------------------------------------------------------
+download_spain_by_rank.py
+------------------------------------------------------------
+  What it does:
+    Spain has too many seafarers to download in a single file,
+    so this script splits the download by rank. It downloads
+    one Address XLS per rank filtered to Spain (ESP), then
+    merges all rank files into one combined Excel file with
+    duplicates removed.
+
+  Step 1 - Download:
+    For each of the 268 ranks, searches CrewInspector with
+    country = ESP and that rank, then downloads the XLS if
+    the button appears. Saves to downloads/spain/<RANK>.xls
+    Ranks with no Spain seafarers are silently skipped.
+
+  Step 2 - Merge:
+    Reads all files in downloads/spain/, deduplicates by
+    seaman_id (keeps first occurrence), and writes the final
+    combined file to downloads/ESP.xlsx
+
+  Usage:
+    python download_spain_by_rank.py                 → run both steps
+    python download_spain_by_rank.py --download-only → step 1 only
+    python download_spain_by_rank.py --merge-only    → step 2 only
+
+  Notes:
+    - Safe to resume: already-downloaded rank files are skipped
+    - Ranks with no Spain seafarers (button not shown) are skipped
+    - Duplicate seaman_ids across rank files are automatically removed
+    - The combined Excel (ESP.xlsx) has a styled header row and
+      frozen top row
+    - After running this script, import_address_xls.py will
+      automatically pick up ESP.xlsx when importing to Supabase
+
+============================================================
+  RECOMMENDED RUN ORDER
+============================================================
+
+  1. python download_address_xls.py        (downloads all countries, skips ESP)
+  2. python download_spain_by_rank.py      (downloads ESP by rank, merges to ESP.xlsx)
+  3. python import_address_xls.py          (imports everything including ESP.xlsx)
+
+============================================================
+  SETUP REMINDER
+============================================================
+
+  1. pip install -r requirements.txt
+  2. playwright install chromium
+  3. Copy .env and fill in credentials:
+       CREW_BASE_URL=https://candina.crewinspector.com
+       CREW_USERNAME=your_username
+       CREW_PASSWORD=your_password
+       SUPABASE_URL=https://xxxx.supabase.co
+       SUPABASE_SERVICE_KEY=your_service_role_key
+  4. Run schema.sql in Supabase SQL Editor (fresh install)
+     or schema_address.sql to add the seafarer_addresses table
