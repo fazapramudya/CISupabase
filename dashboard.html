@@ -1,0 +1,929 @@
+<body onload="vfocus();swap_desk(current_desk);vload();">
+<div id="global_line_loader" style="display: none;"><div class="line"></div></div>
+<div id="overDiv" style="position: absolute; visibility: hidden; z-index: 2000;"></div> 
+
+<table class="content">
+<tbody><tr>
+	<td class="topmenu_td">
+								<div id="deskitem_2" onclick="swap_desk('2');" class="">
+			Admin			</div>
+						<div id="deskitem_3" class="sel" onclick="swap_desk('3');">
+			Data			</div>
+						<div id="deskitem_9" onclick="swap_desk('9');" class="">
+			Finance			</div>
+						<div id="deskitem_8" onclick="swap_desk('8');" class="">
+			Fleet			</div>
+						<div id="deskitem_10" onclick="swap_desk('10');" class="">
+			Reports			</div>
+						<div id="deskitem_11" onclick="swap_desk('11');" class="">
+			Other			</div>
+						</td>
+	<td class="">
+
+		<a href="/profile"><b>Malona Asia</b> 
+			<img src="/static/images/settings.png" height="14">
+		</a>
+		
+		<a href="/logout">Logout</a>
+	</td>
+</tr>
+<tr>
+	<td class="submenu_td">
+							<div id="modcontainer_2" style="display:none">
+													<div onclick="location.href='/admin/lists-data'">
+						Lists					</div>
+									<div onclick="location.href='/template/contract'">
+						Templates					</div>
+									<div onclick="location.href='/admin/settings'">
+						Settings					</div>
+									<div onclick="location.href='/admin/system'">
+						System					</div>
+									<div onclick="location.href='/audit/main'">
+						Audit					</div>
+											</div>
+					<div id="modcontainer_3" style="display: block;">
+													<div onclick="location.href='/seaman'">
+						Seafarer					</div>
+									<div class="sel" onclick="location.href='/home'">
+						Home					</div>
+									<div onclick="location.href='/vessel'">
+						Vessels					</div>
+									<div onclick="location.href='/client'">
+						Entity					</div>
+									<div onclick="location.href='/vacancy'">
+						Vacancy					</div>
+									<div onclick="location.href='/search'">
+						Search					</div>
+									<div onclick="location.href='/profile'">
+						Profile					</div>
+											</div>
+					<div id="modcontainer_9" style="display:none">
+													<div onclick="location.href='/contract/main'">
+						Contract					</div>
+									<div onclick="location.href='/invoice/main'">
+						Invoice					</div>
+									<div onclick="location.href='/payroll/charge'">
+						Payroll					</div>
+									<div onclick="location.href='/finance/vessel'">
+						Reports					</div>
+											</div>
+					<div id="modcontainer_8" style="display:none">
+													<div onclick="location.href='/fleet/report'">
+						Reports					</div>
+											</div>
+					<div id="modcontainer_10" style="display:none">
+													<div onclick="location.href='/data-reports'">
+						Crewing					</div>
+									<div onclick="location.href='/data-reports/seafarers'">
+						Seafarers					</div>
+									<div onclick="location.href='/data-reports/vessels'">
+						Vessels					</div>
+									<div onclick="location.href='/stats'">
+						Statistics					</div>
+											</div>
+					<div id="modcontainer_11" style="display:none">
+													<div onclick="location.href='/travel'">
+						Travel					</div>
+									<div onclick="location.href='/training'">
+						Training					</div>
+											</div>
+					</td>
+	<td class="curruser_td">
+					<form method="get" action="">
+				<input type="hidden" name="mod" value="450">
+				<select style="width:150px" name="s_current_office_id" id="current_office" onchange="submit();">
+									<option value="1" selected="">Bilbao 
+									</option><option value="3">Biscay 
+									</option><option value="6">GL 
+									</option><option value="2">Panama 
+									</option><option value="4">PTC 
+									</option><option value="5">Riga 
+								</option></select>
+			</form>
+		
+	</td>
+</tr>
+<tr>
+	<td class="subsubmenu_td">
+		<table class="empty" style="position:relative;left:400px;width:200px;">
+		<tbody><tr>
+			<td>
+				<input type="button" alt="New record" onclick="location.href='/?mod=450&amp;view_mode=edit&amp;render=edit&amp;'+get_value('body_suffix')" value="new">	
+				<input type="button" id="btn_home" onclick="location.href='/'" value="home">
+			<!--
+				<a href="?set_app=app">App</a>
+				-->	
+							</td>
+
+			<td>
+								
+							</td>
+		</tr>
+		</tbody></table>
+	</td>
+</tr>
+<tr>
+	<td colspan="2"><!-- ==================== main ======================= -->
+	
+<style type="text/css" media="all">
+table.list a
+{
+	color: #6666cc;
+}
+</style>
+
+<script type="text/javascript" src="/static/js/jquery/jquery.notify.min.js"></script>
+
+<script type="text/javascript" language="JavaScript">
+
+	
+	$(function() {
+		$( "#tabs" ).tabs({
+			ajaxOptions: {
+				error: function( xhr, status, index, anchor ) {
+					$( anchor.hash ).html(
+						'<img src="/static/images/ajax-loader.gif" alt="loader" />'
+						//"Couldn't load this tab. We'll try to fix this as soon as possible. "  
+						);
+				}/*,
+				beforeSend: function() {
+				}*/
+				}
+		});
+	});
+
+
+
+	
+function create( template, vars, opts ){
+	return $container.notify("create", template, vars, opts);
+}
+$(function() {
+		
+	// application_reminder email in background - transfered to tasks
+	// $.get("/direct?render=direct&form_action=application_reminder", function(data){	} );
+});
+
+
+	$.fx.speeds._default = 200;
+	$(function() {
+		$( "#dialog" ).dialog({
+			autoOpen: false,
+			show: "blind"
+		});
+	});	
+
+
+function loadSubmitted() {
+	$("#tabs-submitted").load("/vacancy/applicant?form_action=application_submitted&amp;render=direct", loaderHide());
+}
+function loadIncomplete() {
+	$("#tabs-incomplete").load("/vacancy/applicant?form_action=application_not_finish&amp;render=direct",loaderHide());
+}
+
+</script>
+
+<form method="post" id="notify" name="notify" action="">
+<input type="hidden" id="form_action_notify" name="form_action" value="">
+<input type="hidden" id="message_id" name="message_id" value="">
+
+</form>
+
+<div id="big" style="border: 0;">
+	
+<div id="tabs" class="ui-tabs ui-corner-all ui-widget ui-widget-content">
+	<ul style="font-weight: bold;" role="tablist" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+		<li style="font-weight: bold;" role="tab" tabindex="0" class="ui-tabs-tab ui-corner-top ui-state-default ui-tab ui-tabs-active ui-state-active" aria-controls="tabs-1" aria-labelledby="ui-id-2" aria-selected="true" aria-expanded="true"><a href="#tabs-1" role="presentation" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Last viewed</a></li>
+		<li role="tab" tabindex="-1" class="ui-tabs-tab ui-corner-top ui-state-default ui-tab" aria-controls="tabs-submitted" aria-labelledby="ui-id-3" aria-selected="false" aria-expanded="false"><a onclick="loadSubmitted()" style="color: red" href="#tabs-submitted" role="presentation" tabindex="-1" class="ui-tabs-anchor" id="ui-id-3"><b>Submitted (139) </b></a> </li>
+		<li role="tab" tabindex="-1" class="ui-tabs-tab ui-corner-top ui-state-default ui-tab" aria-controls="tabs-incomplete" aria-labelledby="ui-id-4" aria-selected="false" aria-expanded="false"><a onclick="loadIncomplete()" href="#tabs-incomplete" role="presentation" tabindex="-1" class="ui-tabs-anchor" id="ui-id-4"><b>Incomplete</b></a></li>
+
+		<li>
+			
+		</li><li style="font-weight: bold;" role="tab" tabindex="-1" class="ui-tabs-tab ui-corner-top ui-state-default ui-tab" aria-controls="ui-id-6" aria-labelledby="ui-id-5" aria-selected="false" aria-expanded="false"><a href="/stats?action=stats&amp;render=direct" role="presentation" tabindex="-1" class="ui-tabs-anchor" id="ui-id-5">Statistics </a></li>
+	</ul>
+	<div id="tabs-submitted" aria-labelledby="ui-id-3" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+
+
+</div>
+<div id="tabs-incomplete" aria-labelledby="ui-id-4" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;">
+
+
+</div>
+<div id="tabs-1" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="false">
+
+	<table class="list">
+		<tbody><tr>
+			<td class="section" colspan="1">Last viewed</td>
+			<td class="section r" colspan="2">
+				
+				Recs:
+				<input class="input-0" style="width: 20px;" id="recs" name="recs" value="20"> 
+				<input type="button" value="Set" onclick="location.href='/home?recs='+$('#recs').val()">
+				&nbsp;
+				<input type="button" value="Erase history" id="btn_erase">
+			</td>
+		</tr>
+		<tr><th>Seafarer</th><th>Vessels</th></tr>
+		<tr>
+			<td style="vertical-align:top;width:50%">
+							<table class="list">
+									<tbody><tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=159455" style="color: #6666cc;">
+								Tatukov&nbsp;
+								Sergej							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=159455" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=127338" style="color: #6666cc;">
+								Bagdonavicius&nbsp;
+								Vytautas							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=127338" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162197" style="color: #6666cc;">
+								Gomez Mayora&nbsp;
+								Hugo							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162197" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162193" style="color: #6666cc;">
+								Abbas&nbsp;
+								Qaisar							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162193" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162192" style="color: #6666cc;">
+								Нурашев&nbsp;
+								Ерхан							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162192" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162191" style="color: #6666cc;">
+								DEMİR&nbsp;
+								AHMET							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162191" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162190" style="color: #6666cc;">
+								Liaqat&nbsp;
+								Zeeshan							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162190" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162189" style="color: #6666cc;">
+								Ramanujam&nbsp;
+								Ramalingam							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162189" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=137454" style="color: #6666cc;">
+								Gutierrez Santamaria&nbsp;
+								Kelvin							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=137454" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=120203" style="color: #6666cc;">
+								SANCHEZ RIOS&nbsp;
+								SERGIO							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=120203" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=117020" style="color: #6666cc;">
+								JIMENEZ TREJOS&nbsp;
+								JAIME							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=117020" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162188" style="color: #6666cc;">
+								AMIN&nbsp;
+								MOHAMMAD							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162188" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=148579" style="color: #6666cc;">
+								Mihai&nbsp;
+								Chirea-Oprisi							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=148579" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162187" style="color: #6666cc;">
+								Çelik&nbsp;
+								Mustafa							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162187" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162143" style="color: #6666cc;">
+								AGOURAM&nbsp;
+								Said							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162143" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=156481" style="color: #6666cc;">
+								Rexha&nbsp;
+								Donat							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=156481" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=161917" style="color: #6666cc;">
+								Freitas Xavier de Mattos&nbsp;
+								Alexandre Wander							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=161917" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=161609" style="color: #6666cc;">
+								Ivičin&nbsp;
+								Bruno							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=161609" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr>
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=115844" style="color: #6666cc;">
+								Efus Uriarte&nbsp;
+								Jose Hosmer							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=115844" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+									<tr class="even">
+						<td style="width:99%">
+							<a href="/seaman?view_mode=edit&amp;seaman_id=162186" style="color: #6666cc;">
+								Mihels&nbsp;
+								Leonids							</a>
+						</td>
+						<td nowrap="">
+							<a href="/seaman/seaservice?&amp;seaman_id=162186" style="color: #6666cc;">sea service</a>
+						</td>
+					</tr>
+								</tbody></table>
+						</td>
+
+			<td style="vertical-align:top;width:50%">
+							<table class="list">
+											<tbody><tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2224" style="color: #6666cc;">
+									BAHAMA MAMA								</a>
+							</td>
+							<td>24</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2224" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2224" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2601" style="color: #6666cc;">
+									EUROCARGO PALERMO								</a>
+							</td>
+							<td>0</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2601" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2601" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2361" style="color: #6666cc;">
+									NORDPACIFIC								</a>
+							</td>
+							<td>2</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2361" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2361" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2232" style="color: #6666cc;">
+									NORDPANTHER								</a>
+							</td>
+							<td>0</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2232" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2232" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2462" style="color: #6666cc;">
+									DENIA CIUTAT CREATIVA D&amp;E								</a>
+							</td>
+							<td>29</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2462" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2462" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2013" style="color: #6666cc;">
+									JAUME I SAB								</a>
+							</td>
+							<td>6</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2013" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2013" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2461" style="color: #6666cc;">
+									NORDSUN								</a>
+							</td>
+							<td>4</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2461" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2461" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2225" style="color: #6666cc;">
+									BAHAMA MAMA SAB								</a>
+							</td>
+							<td>24</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2225" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2225" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2347" style="color: #6666cc;">
+									CECILIA PAYNE SAB								</a>
+							</td>
+							<td>22</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2347" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2347" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=1540" style="color: #6666cc;">
+									JAUME I								</a>
+							</td>
+							<td>12</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=1540" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=1540" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2287" style="color: #6666cc;">
+									NORDTIGRIS								</a>
+							</td>
+							<td>1</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2287" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2287" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2424" style="color: #6666cc;">
+									AMBROSIUS TIDE(CAM)								</a>
+							</td>
+							<td>0</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2424" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2424" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2235" style="color: #6666cc;">
+									NORDORINOCO								</a>
+							</td>
+							<td>6</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2235" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2235" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2458" style="color: #6666cc;">
+									OCEAN MOON								</a>
+							</td>
+							<td>5</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2458" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2458" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2049" style="color: #6666cc;">
+									NORDLOIRE								</a>
+							</td>
+							<td>2</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2049" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2049" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2459" style="color: #6666cc;">
+									OCEAN SUN								</a>
+							</td>
+							<td>4</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2459" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2459" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2357" style="color: #6666cc;">
+									CAPITAINE TASMAN								</a>
+							</td>
+							<td>0</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2357" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2357" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2445" style="color: #6666cc;">
+									CAPITAINE KUPE								</a>
+							</td>
+							<td>0</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2445" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2445" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr>
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2373" style="color: #6666cc;">
+									CAPITAINE QUIROS								</a>
+							</td>
+							<td>0</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2373" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2373" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+											<tr class="even">
+							<td style="width:99%">
+								<a href="/vessel/crew?mod=103&amp;view_mode=edit&amp;vessel_id=2460" style="color: #6666cc;">
+									OCEAN PRINCESS								</a>
+							</td>
+							<td>6</td>
+							<td nowrap="">
+								<a href="/vessel/crew/?vessel_id=2460" style="color: #6666cc;">crew</a>&nbsp;|&nbsp;<a href="/vessel/plan/?vessel_id=2460" style="color: #6666cc;">plan</a>
+							</td>
+						</tr>
+									</tbody></table>
+			
+			<form method="post" id="add_vessel" name="add_vessel" action="">
+			<input type="hidden" id="form_action1" name="form_action" value="">
+			<input type="hidden" id="del_config_id" name="del_config_id" value="">
+
+			<table class="form">
+				<tbody><tr><td class="section" colspan="11">My favorite vessels</td></tr>
+				<tr>
+					<th>New vessel:</th>
+					<td nowrap="">
+						<input class="input-2 ui-autocomplete-input" style="width: ;" id="add_vessel_name" name="add_vessel_name" value="" autocomplete="off"> 
+						<input type="submit" class="" onclick=" $('#form_action1').val('add_vessel');" value="Add">
+						<input type="hidden" id="add_vessel_id" name="add_vessel_id" value=""> 
+				
+				</td></tr>
+			</tbody></table>
+			
+			</form>
+
+			</td>
+				</tr>
+		<!-- <tr><td class="subsection" colspan="2"></td></tr> -->
+	</tbody></table>
+
+</div><div id="ui-id-6" aria-live="polite" aria-labelledby="ui-id-5" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true" style="display: none;"></div>
+
+</div>
+
+</div>
+
+
+<div id="small" style="border-bottom:0">
+<!-- domaats lai no body.html vareetu dabuut veertiibu -->
+<input type="hidden" id="body_suffix" value="referencing_id=1"> 
+<table class="form">
+<tbody><tr> 
+	<td class="section">
+		<input type="button" class="button-expand" id="btn_l_m_expand"> 
+			</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="User`s most frequently used features." class="button-tab-sel" value="Main" onclick="location.href='/home?&amp;referencing_id=1'">
+		
+	</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="" class="button-tab" value="Tutorials" onclick="location.href='/home/tutorial?&amp;referencing_id=1'">
+		
+	</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="" class="button-tab" value="Messages" onclick="location.href='/home/message?&amp;referencing_id=1'">
+		
+	</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="" class="button-tab" value="Send SMS" onclick="location.href='/user/sms?&amp;referencing_id=1'">
+		
+	</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="" class="button-tab" value="User's settings" onclick="location.href='/user/settings?&amp;referencing_id=1'">
+		
+	</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="" class="button-tab" value="Tasks" onclick="location.href='/user/task?&amp;referencing_id=1'">
+		
+	</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="" class="button-tab" value="E-mail" onclick="location.href='/mail?&amp;referencing_id=1'">
+		
+	</td>
+</tr>
+<tr> 
+	<td class="subsection"><span id="l_m_info" style="display: none">Main</span></td>
+</tr>
+</tbody></table>
+
+<script type="text/javascript">
+
+$('#l_m_info').html( $(".button-tab-sel").val() );
+
+
+$('#btn_l_m_expand').click(function(){
+	if($('.l_m_button').css('display')=='none')
+	{
+		$('.l_m_button').show();
+		$('#l_m_info').hide();
+	}
+	else
+	{ 
+		$('.l_m_button').hide();
+		$('#l_m_info').show();
+	}
+	
+	$.post('/direct?form_action=change_left_menu_view&mod_id=450&view_mode='+$('.l_m_button').css('display'));
+});
+</script>
+<table class="list">
+<tbody><tr><td class="section" colspan="2">Support Info</td></tr>
+<tr>
+	<th>Name</th>
+	<td>CrewInspector Support</td>
+</tr>
+<tr>
+	<th>Phones</th>
+	<td>+371 20611120 +371 23078300 +371 26365577</td>
+</tr>
+<tr>
+	<th>E-Mail</th>
+	<td><a href="mailto:support@crewinspector.com">support@crewinspector.com</a></td>
+</tr>
+<tr><td class="section" colspan="2">System</td></tr>
+<tr>
+	<th>Version</th>
+	<td>2385</td>
+</tr><tr>
+	<th>Storage</th>
+	<td><div id="progressbar" role="progressbar" aria-valuemin="0" class="ui-progressbar ui-corner-all ui-widget ui-widget-content" aria-valuemax="100" aria-valuenow="100"><div class="ui-progressbar-value ui-corner-left ui-widget-header ui-progressbar-complete ui-corner-right" style="width: 100%;"></div></div>364 GB /240 GB </td>
+</tr><tr><td class="section" colspan="2"></td></tr>
+<tr>
+	<td colspan="2" style="text-align:center;padding:0">
+	<a href="http://www.crewinspector.com" target="_blank" title="crewinspector">
+	<img src="/static/images/ci_logo.jpg" border="0" alt="crewinspector">
+</a>
+	</td>
+</tr>
+<tr><td class="subsection" colspan="2"></td></tr>
+</tbody></table>
+  <script>
+  $(function() {
+    $( "#progressbar" ).progressbar({
+      value: 100*(390305564137/257698037760)
+    });
+  });
+  </script>
+
+</div>
+
+<div id="container" style="display:none">
+	
+	<div id="sticky">
+		<a class="ui-notify-close ui-notify-cross" href="#">x</a>
+		<h1>#{title}</h1>
+		<p style="text-align: right; margin-right: 20px">
+			<input type="button" class="confirm" value="Mark as Read">
+		</p>
+		<p>#{text}</p>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+check_p_online();
+   
+set_autocomplete("add_vessel_name", "/vessel?action=vessel_suggest&amp;render=direct", "add_vessel_id");
+
+$( "#btn_erase" ).click(function(){
+  if(confirm("Are you sure?"))
+	$.get( "/home?render=direct&action=erase_history", 
+	  function( data )
+	  {
+		  if (data=="done")
+		  {
+		  	location.reload();
+		  }
+		  else
+		  	alert(data);
+	  });  
+});
+    
+$(document).ready(function() {
+	// calendar_title cnt
+	$.get( "/home?render=direct&action=calendar_title", 
+	  function( data )
+	  {
+		  if (data >0)
+		  {
+			  $("#tab_calendar").css("color","red");
+			  $("#tab_calendar").append(" ("+data+")");
+		  }
+	  });  
+});
+
+function check_p_online()
+{
+	if($("#p_log_tbl").length==0)
+	{
+		$.get("/home?action=p_log_cnt&amp;render=direct", function(cnt){
+	    	set_p_online(cnt);
+		});
+	    setTimeout(function () {
+		    check_p_online();
+	    }, 1000*30); // *20sec
+	    
+    }
+}
+function set_p_online(cnt)
+{
+	if(cnt>0)
+	{
+	 	$("#is_p_log").html(" ("+cnt+")");
+	 	$("#is_p_log").parent().css("color", "red");
+	}
+	else
+	{
+	 	$("#is_p_log").html("");
+	 	$("#is_p_log").parent().css("color", "");		    	
+	}
+}
+</script>
+
+
+</td>
+</tr>
+</tbody></table><ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+
+<script type="text/javascript">
+
+// timeout=60*5*1000;
+timeout=60*15*1000;
+start_system_keepalive({
+	intervalMs: timeout,
+	pulseSelector: ".curruser_td"
+});
+
+ 
+	
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+if (!window.uiLoader) {
+	window.uiLoader = {
+		_count: 0,
+		show: function() {
+			this._count++;
+			$('#global_line_loader').show();
+		},
+		hide: function() {
+			this._count = Math.max(0, this._count - 1);
+			if (this._count === 0) $('#global_line_loader').hide();
+		},
+		reset: function() {
+			this._count = 0;
+			$('#global_line_loader').hide();
+		}
+	};
+	$(document).ajaxStart(function(){ window.uiLoader.show(); });
+	$(document).ajaxComplete(function(){ window.uiLoader.hide(); });
+	$(document).ajaxError(function(){ window.uiLoader.hide(); });
+}
+	
+
+});
+</script>
+
+
+<div id="system_dialog" title="" style="display:none;"></div>
+
+
+
+<script>
+if (document.location.host!='candina'+'.crewinspector.com')
+{
+	$(".curruser_td").css("background-color", '#66CC99');
+	$(".curruser_td").html("This is backup site. candina ");
+	
+}
+
+
+
+</script>
+
+<div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-draggable ui-resizable" aria-describedby="dialog" aria-labelledby="ui-id-7" style="display: none; position: absolute;"><div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle"><span id="ui-id-7" class="ui-dialog-title">&nbsp;</span><button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button></div><div id="dialog" class="ui-dialog-content ui-widget-content"></div><div class="ui-resizable-handle ui-resizable-n" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-w" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90;"></div></div></body>

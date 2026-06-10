@@ -1,0 +1,4 @@
+playwright>=1.40.0
+supabase>=2.3.0
+python-dotenv>=1.0.0
+pycountry>=23.12.11

@@ -1,0 +1,23 @@
+# Environment & secrets
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Debug artifacts
+login_debug.png
+*.png
+
+# OS
+.DS_Store
+Thumbs.db

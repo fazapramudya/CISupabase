@@ -1,0 +1,2506 @@
+<body onload="vfocus();swap_desk(current_desk);vload();">
+<div id="global_line_loader" style="display: none;"><div class="line"></div></div>
+<div id="overDiv" style="position: absolute; visibility: hidden; z-index: 2000;"></div> 
+
+<table class="content">
+<tbody><tr>
+	<td class="topmenu_td">
+								<div id="deskitem_2" onclick="swap_desk('2');" class="">
+			Admin			</div>
+						<div id="deskitem_3" class="sel" onclick="swap_desk('3');">
+			Data			</div>
+						<div id="deskitem_9" onclick="swap_desk('9');" class="">
+			Finance			</div>
+						<div id="deskitem_8" onclick="swap_desk('8');" class="">
+			Fleet			</div>
+						<div id="deskitem_10" onclick="swap_desk('10');" class="">
+			Reports			</div>
+						<div id="deskitem_11" onclick="swap_desk('11');" class="">
+			Other			</div>
+						</td>
+	<td class="">
+
+		<a href="/profile"><b>Malona Asia</b> 
+			<img src="/static/images/settings.png" height="14">
+		</a>
+		
+		<a href="/logout">Logout</a>
+	</td>
+</tr>
+<tr>
+	<td class="submenu_td">
+							<div id="modcontainer_2" style="display:none">
+													<div onclick="location.href='/admin/lists-data'">
+						Lists					</div>
+									<div onclick="location.href='/template/contract'">
+						Templates					</div>
+									<div onclick="location.href='/admin/settings'">
+						Settings					</div>
+									<div onclick="location.href='/admin/system'">
+						System					</div>
+									<div onclick="location.href='/audit/main'">
+						Audit					</div>
+											</div>
+					<div id="modcontainer_3" style="display: block;">
+													<div onclick="location.href='/seaman'">
+						Seafarer					</div>
+									<div onclick="location.href='/home'">
+						Home					</div>
+									<div onclick="location.href='/vessel'">
+						Vessels					</div>
+									<div onclick="location.href='/client'">
+						Entity					</div>
+									<div onclick="location.href='/vacancy'">
+						Vacancy					</div>
+									<div class="sel" onclick="location.href='/search'">
+						Search					</div>
+									<div onclick="location.href='/profile'">
+						Profile					</div>
+											</div>
+					<div id="modcontainer_9" style="display:none">
+													<div onclick="location.href='/contract/main'">
+						Contract					</div>
+									<div onclick="location.href='/invoice/main'">
+						Invoice					</div>
+									<div onclick="location.href='/payroll/charge'">
+						Payroll					</div>
+									<div onclick="location.href='/finance/vessel'">
+						Reports					</div>
+											</div>
+					<div id="modcontainer_8" style="display:none">
+													<div onclick="location.href='/fleet/report'">
+						Reports					</div>
+											</div>
+					<div id="modcontainer_10" style="display:none">
+													<div onclick="location.href='/data-reports'">
+						Crewing					</div>
+									<div onclick="location.href='/data-reports/seafarers'">
+						Seafarers					</div>
+									<div onclick="location.href='/data-reports/vessels'">
+						Vessels					</div>
+									<div onclick="location.href='/stats'">
+						Statistics					</div>
+											</div>
+					<div id="modcontainer_11" style="display:none">
+													<div onclick="location.href='/travel'">
+						Travel					</div>
+									<div onclick="location.href='/training'">
+						Training					</div>
+											</div>
+					</td>
+	<td class="curruser_td">
+					<form method="get" action="">
+				<input type="hidden" name="mod" value="200">
+				<select style="width:150px" name="s_current_office_id" id="current_office" onchange="submit();">
+									<option value="1" selected="">Bilbao 
+									</option><option value="3">Biscay 
+									</option><option value="6">GL 
+									</option><option value="2">Panama 
+									</option><option value="4">PTC 
+									</option><option value="5">Riga 
+								</option></select>
+			</form>
+		
+	</td>
+</tr>
+<tr>
+	<td class="subsubmenu_td">
+		<table class="empty" style="position:relative;left:400px;width:200px;">
+		<tbody><tr>
+			<td>
+				<input type="button" alt="New record" onclick="location.href='/?mod=200&amp;view_mode=edit&amp;render=edit&amp;'+get_value('body_suffix')" value="new">	
+				<input type="button" id="btn_home" onclick="location.href='/'" value="home">
+			<!--
+				<a href="?set_app=app">App</a>
+				-->	
+							</td>
+
+			<td>
+								
+							</td>
+		</tr>
+		</tbody></table>
+	</td>
+</tr>
+<tr>
+	<td colspan="2"><script type="text/javascript" language="JavaScript" src="/static/js/seaman.js"></script> 
+<style type="text/css">
+table.list tr.ative_class td, 
+table.form-list tr.ative_class td
+{
+	background-color: lightgrey;
+}
+
+</style>
+
+<div style="display:none"> 
+
+ 	
+</div>
+
+<!--  ===== -->
+<div id="small">
+
+<!-- domaats lai no body.html vareetu dabuut veertiibu -->
+<input type="hidden" id="body_suffix" value="none=1"> 
+<table class="form">
+<tbody><tr> 
+	<td class="section">
+		<input type="button" class="button-expand" id="btn_l_m_expand"> 
+		Search	</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="" class="button-tab-sel" value="Search" onclick="location.href='/search?&amp;none=1'">
+		
+	</td>
+</tr>
+<tr class="l_m_button"> 
+	<td> 
+		
+		<input type="button" title="" class="button-tab" value="Selected" onclick="location.href='/search/selected?&amp;none=1'">
+		
+	</td>
+</tr>
+<tr> 
+	<td class="subsection"><span id="l_m_info" style="display: none">Search</span></td>
+</tr>
+</tbody></table>
+
+<script type="text/javascript">
+
+$('#l_m_info').html( $(".button-tab-sel").val() );
+
+
+$('#btn_l_m_expand').click(function(){
+	if($('.l_m_button').css('display')=='none')
+	{
+		$('.l_m_button').show();
+		$('#l_m_info').hide();
+	}
+	else
+	{ 
+		$('.l_m_button').hide();
+		$('#l_m_info').show();
+	}
+	
+	$.post('/direct?form_action=change_left_menu_view&mod_id=200&view_mode='+$('.l_m_button').css('display'));
+});
+</script>
+
+<form method="get" action="" id="search_form">
+<input type="hidden" name="mod" value="200">
+<input type="hidden" id="form_action" name="form_action" value="search">
+<input type="hidden" name="order_by" id="order_by" value="">
+<input type="hidden" name="order_type" id="order_type" value="">
+<input type="hidden" name="f_limit" id="f_limit" value="20">
+<!--  <input type="hidden" name="page_no" id="page_no" value=""/> -->
+
+<table class="form">
+<tbody><tr>
+	<td class="section" colspan="2"><input type="button" class="button-expand" onclick="expand_seaman()"> SEAMAN'S DATA</td>
+</tr>
+</tbody></table>
+<table class="form" id="table_seaman">
+<tbody><tr>
+	<th>Surname</th>
+	<td><input class="input-2" name="surname" id="surname" value=""></td>
+</tr>
+<tr>
+	<th>Name</th>
+	<td><input class="input-2" name="name" id="name" value=""></td>
+</tr>
+<tr>
+	<th>Rank</th>
+	<td>
+		<select class="select-1" name="rank_id" id="rank_id">
+		<option value="0">--Any--</option>
+						<option value="753">1COOK-BTCHR</option>
+				<option value="751">1OFF</option>
+				<option value="750">2nd ETO</option>
+				<option value="749">A. WTR</option>
+				<option value="738">A.HOST/CAM.TRIP</option>
+				<option value="734">ABJUN</option>
+				<option value="742">APAX/AUXCABIN</option>
+				<option value="740">APAX/TIENDA</option>
+				<option value="747">Asst. Elect</option>
+				<option value="743">ATIENDA</option>
+				<option value="741">CAMTRIP</option>
+				<option value="756">CREWSTWD</option>
+				<option value="733">D.MAN</option>
+				<option value="755">EF</option>
+				<option value="735">ENG FITTER</option>
+				<option value="746">ETO CAD</option>
+				<option value="737">ETOASST</option>
+				<option value="754">FCLTY MNG</option>
+				<option value="757">Fireman</option>
+				<option value="744">GSM</option>
+				<option value="748">Quartermaster</option>
+				<option value="758">SAILOR</option>
+				<option value="759">Security Guard</option>
+				<option value="736">SOUS CHEF</option>
+				<option value="752">Staff. CENG</option>
+				<option value="745">Truck Driver</option>
+				<option value="503">1AE</option>
+				<option value="500">1AEA</option>
+				<option value="501">2/O/DPO</option>
+				<option value="504">2AE</option>
+				<option value="645">2AMES</option>
+				<option value="554">2C.STWD</option>
+				<option value="502">2COOK </option>
+				<option value="685">2MEC</option>
+				<option value="506">2OFS </option>
+				<option value="686">2PLUMB</option>
+				<option value="687">2STWD</option>
+				<option value="505">3AE </option>
+				<option value="676">A. REEFER</option>
+				<option value="623">A.GALLEY</option>
+				<option value="620">A.PURS</option>
+				<option value="703">A.STORE</option>
+				<option value="702">A.STWD</option>
+				<option value="722">AB II/5</option>
+				<option value="633">AB/MTM</option>
+				<option value="507">ABCOOK</option>
+				<option value="721">ABOSN</option>
+				<option value="516">ACABIN</option>
+				<option value="515">ACOOK</option>
+				<option value="555">ACSTWD</option>
+				<option value="514">AHOST</option>
+				<option value="612">AHTSS</option>
+				<option value="549">ALIMP</option>
+				<option value="646">AMESS</option>
+				<option value="508">ANI</option>
+				<option value="513">APAX</option>
+				<option value="512">APB</option>
+				<option value="511">APE</option>
+				<option value="509">APOF</option>
+				<option value="510">AS/D</option>
+				<option value="696">ASHOP</option>
+				<option value="520">B.OP</option>
+				<option value="517">B.UT</option>
+				<option value="518">B/WTR</option>
+				<option value="521">BARM</option>
+				<option value="519">BBOY</option>
+				<option value="660">BKR</option>
+				<option value="526">BSNA</option>
+				<option value="527">BSNB</option>
+				<option value="528">BSNC</option>
+				<option value="529">BSND</option>
+				<option value="530">BSNE</option>
+				<option value="524">BSUP</option>
+				<option value="531">BTCHR</option>
+				<option value="522">BTND</option>
+				<option value="525">BTOP</option>
+				<option value="523">BWSS</option>
+				<option value="545">C.STOR</option>
+				<option value="553">C.STWD</option>
+				<option value="538">CALD</option>
+				<option value="539">CALDN</option>
+				<option value="543">CASD</option>
+				<option value="726">CASD S.</option>
+				<option value="542">CASH</option>
+				<option value="544">CASM</option>
+				<option value="546">CATR</option>
+				<option value="533">CBOY</option>
+				<option value="133">CE(MANT)</option>
+				<option value="551">CE/1AE </option>
+				<option value="550">CENGT</option>
+				<option value="540">CGEN</option>
+				<option value="534">CGIRL</option>
+				<option value="548">CLED</option>
+				<option value="723">CLNR</option>
+				<option value="714">CLNTNK</option>
+				<option value="552">COFFE</option>
+				<option value="563">COOK/ST</option>
+				<option value="532">COSD</option>
+				<option value="564">CRNO</option>
+				<option value="541">CRPT</option>
+				<option value="537">CSER</option>
+				<option value="547">CSPV</option>
+				<option value="535">CSTWD</option>
+				<option value="729">Cust.Serv.Crew</option>
+				<option value="536">CUTI</option>
+				<option value="567">DBOY</option>
+				<option value="569">DECK  FITTER</option>
+				<option value="572">DHND</option>
+				<option value="575">DJ</option>
+				<option value="565">DMAN</option>
+				<option value="577">DNK</option>
+				<option value="576">DR</option>
+				<option value="566">DWMAN</option>
+				<option value="677">ENG REEF</option>
+				<option value="727">ETR</option>
+				<option value="590">F/MTM</option>
+				<option value="591">F/W</option>
+				<option value="592">FMAN</option>
+				<option value="593">FOODM</option>
+				<option value="594">FORKD</option>
+				<option value="596">G. UTI</option>
+				<option value="597">G.ENG</option>
+				<option value="598">G.MEC</option>
+				<option value="595">G/BOY</option>
+				<option value="600">GRS</option>
+				<option value="601">GUARDIAN</option>
+				<option value="602">GUIT</option>
+				<option value="599">GVNS</option>
+				<option value="604">H.BART</option>
+				<option value="605">H.CLE</option>
+				<option value="613">H.MAN</option>
+				<option value="606">H.REC</option>
+				<option value="614">H.S.ENG</option>
+				<option value="616">H.UT</option>
+				<option value="608">H.WAIT</option>
+				<option value="609">HKCL</option>
+				<option value="603">HMAN</option>
+				<option value="611">HTSS</option>
+				<option value="617">ILU</option>
+				<option value="730">INSP</option>
+				<option value="618">J.CMA</option>
+				<option value="621">J.ETO</option>
+				<option value="671">J.RAD</option>
+				<option value="619">JWRL</option>
+				<option value="622">K.UTI</option>
+				<option value="625">LBSN</option>
+				<option value="240">LIMPIADOR</option>
+				<option value="628">LKEE</option>
+				<option value="626">LMTM</option>
+				<option value="624">LUNDRY</option>
+				<option value="637">M-CO</option>
+				<option value="638">M-SDPO</option>
+				<option value="635">M.BLK</option>
+				<option value="636">M.TNK</option>
+				<option value="629">MAG</option>
+				<option value="644">MED.O</option>
+				<option value="292">MIGRATION- RSA</option>
+				<option value="321">MIGRATION-2/O/JDPO</option>
+				<option value="314">MIGRATION-AB/CR</option>
+				<option value="162">MIGRATION-ARTISTA</option>
+				<option value="319">MIGRATION-C/O/SDPO</option>
+				<option value="125">MIGRATION-CHIEF ENGINEER BULK</option>
+				<option value="327">MIGRATION-ENGINE CLEANER</option>
+				<option value="177">MIGRATION-MECAMAR</option>
+				<option value="166">MIGRATION-OFF. STWD</option>
+				<option value="241">MIGRATION-PATRON PORTUARIO</option>
+				<option value="232">MIGRATION-POTMAN</option>
+				<option value="178">MIGRATION-RECEPTION SUP</option>
+				<option value="176">MIGRATION-SKIPPER</option>
+				<option value="642">MMN</option>
+				<option value="643">MN1</option>
+				<option value="639">MN2</option>
+				<option value="640">MNM</option>
+				<option value="634">MSSG</option>
+				<option value="731">MST/1OFF</option>
+				<option value="656">MTM/ETO</option>
+				<option value="630">MTR</option>
+				<option value="648">MUSIC</option>
+				<option value="649">N.COOK</option>
+				<option value="650">N.STWD</option>
+				<option value="651">N.UTI</option>
+				<option value="652">NURSE</option>
+				<option value="654">O.MESS</option>
+				<option value="732">OBS Spv.</option>
+				<option value="667">P.MST</option>
+				<option value="658">PANG</option>
+				<option value="661">PATMAN</option>
+				<option value="664">PIAN</option>
+				<option value="665">PILT</option>
+				<option value="666">PLUM</option>
+				<option value="669">PPRR</option>
+				<option value="670">PSR</option>
+				<option value="657">PTR</option>
+				<option value="562">R.COOK</option>
+				<option value="673">RECEPT</option>
+				<option value="675">REDER</option>
+				<option value="681">RIG</option>
+				<option value="680">RIGME</option>
+				<option value="682">RNECK</option>
+				<option value="725">RP.COOK</option>
+				<option value="724">RP.REST</option>
+				<option value="678">RPMAN</option>
+				<option value="683">RTBT</option>
+				<option value="691">S ELECT</option>
+				<option value="710">S.CAT</option>
+				<option value="558">S.CLNR</option>
+				<option value="587">S.ETO</option>
+				<option value="711">S.HOST</option>
+				<option value="707">S.INTENT</option>
+				<option value="712">S.LIMP</option>
+				<option value="684">S.OFF</option>
+				<option value="672">S.RAD</option>
+				<option value="701">S.RECEPT</option>
+				<option value="713">S.RECEPT</option>
+				<option value="704">S.STORE</option>
+				<option value="699">SBFTT</option>
+				<option value="690">SBSN</option>
+				<option value="700">SCARG</option>
+				<option value="706">SCARG/SUPERN</option>
+				<option value="688">SECR</option>
+				<option value="689">SER.U</option>
+				<option value="692">SFITT</option>
+				<option value="695">SHIP.FIT</option>
+				<option value="697">SHOPG</option>
+				<option value="662">SKPR</option>
+				<option value="694">SSO</option>
+				<option value="705">STOREM</option>
+				<option value="708">SUPERN</option>
+				<option value="715">T. ENG</option>
+				<option value="716">TUTOR</option>
+				<option value="718">U.MAN</option>
+				<option value="717">U.MTM</option>
+				<option value="719">WTR</option>
+				<option value="720">YMAN</option>
+				<option value="1">MASTER</option>
+				<option value="2">COFF</option>
+				<option value="51">2OFF</option>
+				<option value="52">3OFF</option>
+				<option value="5">4OFF</option>
+				<option value="72">JOFF</option>
+				<option value="12">CENG</option>
+				<option value="54">1ENG</option>
+				<option value="13">2ENG</option>
+				<option value="14">3ENG</option>
+				<option value="53">4ENG</option>
+				<option value="68">ENG</option>
+				<option value="60">JENG</option>
+				<option value="17">ETO</option>
+				<option value="41">ELEC</option>
+				<option value="58">MECH</option>
+				<option value="67">PMAN</option>
+				<option value="75">BOSUN</option>
+				<option value="50">FRMAN</option>
+				<option value="59">AB</option>
+				<option value="39">GP</option>
+				<option value="10">OS</option>
+				<option value="19">FITTER</option>
+				<option value="20">MMAN</option>
+				<option value="25">OILER</option>
+				<option value="24">WELDER</option>
+				<option value="26">WIPER</option>
+				<option value="69">CHCOOK</option>
+				<option value="22">COOK</option>
+				<option value="23">STW</option>
+				<option value="28">MESSM</option>
+				<option value="30">MSI</option>
+				<option value="11">DCAD</option>
+				<option value="21">ECAD</option>
+				<option value="29">Other</option>
+						</select>		
+		<img src="/static/images/info.png" height="13" alt="" title="Search also in Additional ranks">
+		<!--<input type="button" class="button-href" style="float:none" onclick="additional_rank()" value="Additional" />
+        <div id="add_rank_td" style="display:none;width:100%;">Additional<br></div> -->
+	</td>
+</tr>
+<tr>
+	<th>Relation</th>
+	<td>
+		<select class="select-1" name="status" id="status">
+				<option value="0">--Any--</option>
+				<option value="11" is_active="0">not available&nbsp;(inactive)</option>
+				<option value="10" is_active="1">online applicant&nbsp;</option>
+				<option value="0" is_active="1">seafarer&nbsp;</option>
+				<option value="5" is_active="1">pool seafarer&nbsp;</option>
+				<option value="4" is_active="1">applicant&nbsp;</option>
+				<option value="8" is_active="0">NTBR&nbsp;(inactive)</option>
+						</select>
+		<label><input type="checkbox" class="cb" name="show_active" id="show_active" value="1" checked="">Only&nbsp;active</label>
+	</td>
+</tr>
+
+<tr>
+	<th>Nationality</th>
+	<td><input type="text" class="input-0 ui-autocomplete-input" name="country_code" id="country_code" value="UKR" maxlength="3" autocomplete="off"> <!--<input type="button" class="button-find" onclick="pop_up('/?mod=388&amp;print=document&amp;search=country&amp;parent_field_id=country_code');"/>--></td>
+</tr>
+<tr>
+	<th>Resident</th>
+	<td><input type="checkbox" name="citizenship_id" id="citizenship_id" class="cb"></td>
+</tr>
+<tr>
+	<th>Age</th>
+	<td nowrap="">
+	<input type="text" class="input-0" id="from_age" name="from_age" maxlength="10" value="" style="width:30px">	-
+	<input type="text" class="input-0" id="to_age" name="to_age" maxlength="10" value="" style="width:30px">
+	
+		<input type="button" class="button-add" style="float:right;background-image: url('/static/images/change.gif')" onclick="$(this).parent().parent().hide();$('#f_birth_day').parent().parent().show();">
+	</td>
+</tr>
+<tr style="display:none">
+	<th>Birth day</th>
+	<td>
+		Day:<input type="text" class="input-0" style="width:20px" name="f_birth_day" id="f_birth_day" value="" maxlength="2">
+		Month:<input type="text" class="input-0" style="width:20px" name="f_birth_month" id="f_birth_month" value="" maxlength="2"> 
+		<input type="button" class="button-add" style="float:right;background-image: url('/static/images/change.gif')" onclick="$(this).parent().parent().hide();$('#from_age').parent().parent().show();">
+	</td>
+</tr>
+<tr style="display:none">
+	<th>Date of birth</th>
+	<td>
+		<input type="text" class="input-0" name="f_from_date" id="f_from_date" value="" maxlength="10" onclick="showCalendar('f_from_date')">
+		-
+		<input type="text" class="input-0" name="f_to_date" id="f_to_date" value="" maxlength="10" onclick="showCalendar('f_to_date')"> 
+		<input type="button" class="button-add" style="background-image: url('/static/images/change.gif')" onclick="$(this).parent().parent().hide();$('#from_age').parent().parent().show();">
+	</td>
+</tr>
+<tr>
+	<th>Gender</th>
+	<td>
+		<label><input type="radio" name="gender" value="M" class="cb">Male</label>
+		<label><input type="radio" name="gender" value="F" class="cb">Female</label>
+		<label><input type="radio" name="gender" id="gender" value="" class="cb" checked="">Any</label>
+	<!--
+		<select class="select-1" name="gender" id="gender">
+			<option value="">--Any--</option>
+			<option value="M">Male</option>
+			<option value="F">Female</option>
+		</select> -->
+	</td>
+</tr>
+<tr>
+	<th>Availability</th>
+	<td>
+		<label><input type="checkbox" name="available[1]" id="available_1" class="cb">planned</label>
+		<label><input type="checkbox" name="available[2]" id="available_2" class="cb">joining</label>
+		<label><input type="checkbox" name="available[3]" id="available_3" class="cb">onboard</label>
+		<label><input type="checkbox" name="available[4]" id="available_4" class="cb">on vacation</label>
+		<label><input type="checkbox" name="available[5]" id="available_5" class="cb">available</label>
+	<!--
+		<select class="select-1" name="available" id="available">
+		<option value="">--Any--</option>
+		<option value="1">planned</option>
+		<option value="2">joining</option>
+		<option value="3">onboard</option>
+		<option value="4">on vacation</option>
+		<option value="5">available</option>
+				</select>
+	-->
+	</td>
+</tr>
+<tr>
+	<th>Available from</th>
+	<td>
+		<input type="text" class="input-0" name="f_available_from_date" id="f_available_from_date" value="" maxlength="10">
+		<input type="button" class="button-cal" onclick="showCalendar('f_available_from_date')">
+
+		<input type="text" class="input-0" name="f_available_to_date" id="f_available_to_date" value="" maxlength="10"> 
+		<input type="button" class="button-cal" onclick="showCalendar('f_available_to_date')">
+	</td>
+</tr> 
+<tr>
+	<th>Last updated</th>
+	<td>
+		<input type="text" class="input-0" name="f_updates_from_date" id="f_updates_from_date" value="" maxlength="10">
+		<input type="button" class="button-cal" onclick="showCalendar('f_updates_from_date')">
+
+		<input type="text" class="input-0" name="f_updates_to_date" id="f_updates_to_date" value="" maxlength="10"> 
+		<input type="button" class="button-cal" onclick="showCalendar('f_updates_to_date')">
+	</td>
+</tr> 
+<tr>
+	<th>Last contacted</th>
+	<td>
+		<input type="text" class="input-0" name="f_send_from_date" id="f_send_from_date" value="" maxlength="10">
+		<input type="button" class="button-cal" onclick="showCalendar('f_send_from_date')">
+
+		<input type="text" class="input-0" name="f_send_to_date" id="f_send_to_date" value="" maxlength="10"> 
+		<input type="button" class="button-cal" onclick="showCalendar('f_send_to_date')">
+	</td>
+</tr> 
+<!--<tr>
+	<th>Age</th>
+	<td><input class="input-0" name="age_from" id="age_from" value="" /> - <input class="input-0" name="age_to" id="age_to" value="" /></td>
+</tr>-->
+<tr>
+	<th>Primary office</th>
+	<td>
+		<select class="select-1" name="primary_office_id" id="primary_office_id">
+		<option value="">--Any--</option>
+						<option value="1">Bilbao</option>
+				<option value="3">Biscay</option>
+				<option value="6">GL</option>
+				<option value="2">Panama</option>
+				<option value="4">PTC</option>
+				<option value="5">Riga</option>
+						</select>
+	</td>
+</tr>
+<tr>
+	<th>Taxation No  </th>
+	<td><input class="input-2" name="taxation_id_code" id="taxation_id_code" value=""></td>
+</tr>
+<tr>
+	<td class="button r" colspan="1" style="text-align: ;">
+		<!-- <b>#</b><input type="text" class="input-0" style="width: 35px" name="f_limit" id="f_limit" value="20" maxlength="10" title="Records per page" /> -->
+	</td>
+	<td class="button" colspan="1">
+	<input type="submit" value="Search" onclick="loader();">
+	</td>
+</tr>
+</tbody></table>
+
+
+<table class="form">
+<tbody><tr><td colspan="2" class="section"><input type="button" class="button-expand" onclick="expand_search('skills')"> SEAMAN'S SKILLS</td></tr>
+</tbody></table>
+<div id="table_skills">
+<table class="form">
+<tbody><tr>
+	<th>Language</th>
+	<td>
+		<select class="select-1" name="f_lang_id" id="f_lang_id"><option value="">--Any--</option><option value="1">Arabic</option><option value="2">Bulgarian</option><option value="3">Croatian</option><option value="4">Czech</option><option value="5">Danish</option><option value="6">Dutch</option><option value="7">English</option><option value="8">Estonian</option><option value="9">Finish</option><option value="10">French</option><option value="11">German</option><option value="12">Greek</option><option value="13">Italian</option><option value="14">Latvian</option><option value="15">Lithuanian</option><option value="16">Norwegian</option><option value="17">Polish</option><option value="18">Portuguese</option><option value="19">Romanian</option><option value="20">Russian</option><option value="21">Serbian</option><option value="22">Slovak</option><option value="23">Slovenian</option><option value="24">Spanish</option><option value="25">Swedish</option><option value="26">Turkish</option><option value="27">Ukrainian</option></select>
+		<select id="f_level" name="f_level" class="select-0"><option value="">-Level-</option> <option value="10">Native </option> <option value="9">Excellent </option> <option value="7">Good </option> <option value="5">Average </option> <option value="3">Poor </option> </select>
+	</td>
+</tr>
+<tr id="skill_row">
+	<th>Skill</th>
+	<td>
+		<select class="select-2 skill_group" name="f_skill_group_id" id="f_skill_group_id"><option value="">--Choose Group--</option></select>
+	</td>
+</tr>
+</tbody></table></div>
+
+<table class="form">
+<tbody><tr>
+	<td colspan="2" class="section"><input type="button" class="button-expand" onclick="expand_search('details')"> SEAMAN'S OTHER DETAILS</td>
+</tr>
+</tbody></table>
+<table class="form" id="table_details">
+<tbody><tr>
+	<th>Current location</th>
+	<td><input type="text" class="input-2 pac-target-input" id="location_autocomplete" name="location_autocomplete" value="" placeholder="Enter a location" autocomplete="off">
+		Country: <input type="text" class="input-0 fill_field" style="width:30px" name="check_country_code" id="check_country_code" value="" maxlength="3"> 
+		<span id="check_country_name_fld"></span><br>
+		City: <input type="text" class="input-1 fill_field" id="check_city" name="check_city" value="" maxlength="50">
+		<input type="hidden" class="input-0" id="check_country_name" name="check_country_name" value="" readonly="">
+	</td>
+</tr>
+<tr>
+	<th>Last client name</th>
+	<td><input class="input-2 ui-autocomplete-input" name="f_last_client_name" id="f_last_client_name" value="" autocomplete="off"></td>
+</tr>
+<tr>
+	<th>Primary client </th>
+	<td><input class="input-2 ui-autocomplete-input" name="primary_client_name" id="primary_client_name" value="" autocomplete="off"></td>
+</tr>
+<tr>
+	<th>Primary Agent </th>
+	<td><input class="input-2 ui-autocomplete-input" name="primary_agent" id="primary_agent" value="" autocomplete="off"></td>
+</tr>
+<tr>
+	<th>Old ID</th>
+	<td><input class="input-0" name="old_id" id="old_id" value=""></td>
+</tr> 
+<tr>
+	<th>Agreed GDPR</th>
+	<td>
+		<label><input type="radio" name="is_term_agreed" value="1">Yes</label>
+		<label><input type="radio" name="is_term_agreed" value="2">No </label>
+		<label><input type="radio" name="is_term_agreed" value="0" checked="">All</label>
+	</td>
+</tr>
+<tr>
+	<th>Religion</th>
+	<td>
+		<select class="select-2" name="religion_id" id="religion_id">
+		<option value="">--Any--</option>
+						<option value="14">Buddhism</option>
+				<option value="12">Christianity</option>
+				<option value="13">Hinduism</option>
+				<option value="11">Islam</option>
+				<option value="15">Judaism</option>
+				<option value="16">Other</option>
+						</select>
+	</td>
+</tr>
+<tr>
+	<td class="button r" colspan="1" style="text-align: ;">
+		<!-- <b>#</b><input type="text" class="input-0" style="width: 35px" name="f_limit" id="f_limit" value="20" maxlength="10" title="Records per page" /> -->
+	</td>
+	<td class="button" colspan="1">
+	<input type="submit" value="Search" onclick="loader();">
+	</td>
+</tr>
+</tbody></table>
+
+
+<table class="form">
+<tbody><tr>
+	<td colspan="2" class="section"><input type="button" class="button-expand" onclick="expand_address()"> SEAMAN'S ADDRESS</td>
+</tr>
+</tbody></table>
+<table class="form" id="table_address">
+<tbody><tr>
+	<th>Country</th>
+	<td>
+		<input type="text" class="input-0 ui-autocomplete-input" maxlength="3" name="search_country" id="search_country" value="" autocomplete="off"> 
+					<!--<input type="button" class="button-find" onclick="pop_up('/?mod=388&amp;print=document&amp;search=country&amp;parent_field_id=search_country');" />-->
+	</td>
+</tr>
+<tr>
+	<th>City</th>
+	<td>
+		<input type="text" class="input-1" name="search_city" value="">
+	</td>
+</tr>
+<tr>
+	<th>County</th>
+	<td>
+		<input type="text" class="input-1" id="search_county" name="search_county" value="" maxlength="50">
+	</td>
+</tr>
+<tr>
+	<th>Street</th>
+	<td>
+		<input type="text" class="input-2" name="search_street" value="">
+	</td>
+</tr>
+<tr>
+	<th>Phone/Fax/Email</th>
+	<td>
+		<input type="text" class="input-2" name="search_phone" value="">
+	</td>
+</tr>
+</tbody></table>
+
+<table class="form">
+<tbody><tr>
+	<td class="section" colspan="2"><input type="button" class="button-expand" onclick="expand_seaservice()"> SEASERVICE DATA</td>
+</tr>
+</tbody></table>
+<table class="form" id="table_seaservice">
+<tbody><tr>
+	<th>Vessel name</th>
+	<td>
+		<input class="input-2 ui-autocomplete-input" name="vessel_name" id="vessel_name" value="" autocomplete="off">
+		<br><label title="Displays only crew with at least one past contract on your vessels who also meet the selected filters. Vessels can managed added under user settings module."><input type="checkbox" class="cb" name="my_favorite_vessels" id="my_favorite_vessels" value="1">My favorite vessels</label>
+	</td>
+</tr>
+<tr>
+	<th>Flag</th>
+	<td>
+		<input type="text" class="input-0 ui-autocomplete-input" maxlength="3" name="f_vessel_flag" id="f_vessel_flag" value="" autocomplete="off"> 
+	</td>
+</tr>
+<tr>
+	<th>Rank onboard</th>
+	<td>
+		<select class="select-1" name="empl_rank_id" id="empl_rank_id">
+		<option value="">--Any--</option>
+				<option value="753">1COOK-BTCHR</option>
+			<option value="751">1OFF</option>
+			<option value="750">2nd ETO</option>
+			<option value="749">A. WTR</option>
+			<option value="738">A.HOST/CAM.TRIP</option>
+			<option value="734">ABJUN</option>
+			<option value="742">APAX/AUXCABIN</option>
+			<option value="740">APAX/TIENDA</option>
+			<option value="747">Asst. Elect</option>
+			<option value="743">ATIENDA</option>
+			<option value="741">CAMTRIP</option>
+			<option value="756">CREWSTWD</option>
+			<option value="733">D.MAN</option>
+			<option value="755">EF</option>
+			<option value="735">ENG FITTER</option>
+			<option value="746">ETO CAD</option>
+			<option value="737">ETOASST</option>
+			<option value="754">FCLTY MNG</option>
+			<option value="757">Fireman</option>
+			<option value="744">GSM</option>
+			<option value="748">Quartermaster</option>
+			<option value="758">SAILOR</option>
+			<option value="759">Security Guard</option>
+			<option value="736">SOUS CHEF</option>
+			<option value="752">Staff. CENG</option>
+			<option value="745">Truck Driver</option>
+			<option value="503">1AE</option>
+			<option value="500">1AEA</option>
+			<option value="501">2/O/DPO</option>
+			<option value="504">2AE</option>
+			<option value="645">2AMES</option>
+			<option value="554">2C.STWD</option>
+			<option value="502">2COOK </option>
+			<option value="685">2MEC</option>
+			<option value="506">2OFS </option>
+			<option value="686">2PLUMB</option>
+			<option value="687">2STWD</option>
+			<option value="505">3AE </option>
+			<option value="676">A. REEFER</option>
+			<option value="623">A.GALLEY</option>
+			<option value="620">A.PURS</option>
+			<option value="703">A.STORE</option>
+			<option value="702">A.STWD</option>
+			<option value="722">AB II/5</option>
+			<option value="633">AB/MTM</option>
+			<option value="507">ABCOOK</option>
+			<option value="721">ABOSN</option>
+			<option value="516">ACABIN</option>
+			<option value="515">ACOOK</option>
+			<option value="555">ACSTWD</option>
+			<option value="514">AHOST</option>
+			<option value="612">AHTSS</option>
+			<option value="549">ALIMP</option>
+			<option value="646">AMESS</option>
+			<option value="508">ANI</option>
+			<option value="513">APAX</option>
+			<option value="512">APB</option>
+			<option value="511">APE</option>
+			<option value="509">APOF</option>
+			<option value="510">AS/D</option>
+			<option value="696">ASHOP</option>
+			<option value="520">B.OP</option>
+			<option value="517">B.UT</option>
+			<option value="518">B/WTR</option>
+			<option value="521">BARM</option>
+			<option value="519">BBOY</option>
+			<option value="660">BKR</option>
+			<option value="526">BSNA</option>
+			<option value="527">BSNB</option>
+			<option value="528">BSNC</option>
+			<option value="529">BSND</option>
+			<option value="530">BSNE</option>
+			<option value="524">BSUP</option>
+			<option value="531">BTCHR</option>
+			<option value="522">BTND</option>
+			<option value="525">BTOP</option>
+			<option value="523">BWSS</option>
+			<option value="545">C.STOR</option>
+			<option value="553">C.STWD</option>
+			<option value="538">CALD</option>
+			<option value="539">CALDN</option>
+			<option value="543">CASD</option>
+			<option value="726">CASD S.</option>
+			<option value="542">CASH</option>
+			<option value="544">CASM</option>
+			<option value="546">CATR</option>
+			<option value="533">CBOY</option>
+			<option value="133">CE(MANT)</option>
+			<option value="551">CE/1AE </option>
+			<option value="550">CENGT</option>
+			<option value="540">CGEN</option>
+			<option value="534">CGIRL</option>
+			<option value="548">CLED</option>
+			<option value="723">CLNR</option>
+			<option value="714">CLNTNK</option>
+			<option value="552">COFFE</option>
+			<option value="563">COOK/ST</option>
+			<option value="532">COSD</option>
+			<option value="564">CRNO</option>
+			<option value="541">CRPT</option>
+			<option value="537">CSER</option>
+			<option value="547">CSPV</option>
+			<option value="535">CSTWD</option>
+			<option value="729">Cust.Serv.Crew</option>
+			<option value="536">CUTI</option>
+			<option value="567">DBOY</option>
+			<option value="569">DECK  FITTER</option>
+			<option value="572">DHND</option>
+			<option value="575">DJ</option>
+			<option value="565">DMAN</option>
+			<option value="577">DNK</option>
+			<option value="576">DR</option>
+			<option value="566">DWMAN</option>
+			<option value="677">ENG REEF</option>
+			<option value="727">ETR</option>
+			<option value="590">F/MTM</option>
+			<option value="591">F/W</option>
+			<option value="592">FMAN</option>
+			<option value="593">FOODM</option>
+			<option value="594">FORKD</option>
+			<option value="596">G. UTI</option>
+			<option value="597">G.ENG</option>
+			<option value="598">G.MEC</option>
+			<option value="595">G/BOY</option>
+			<option value="600">GRS</option>
+			<option value="601">GUARDIAN</option>
+			<option value="602">GUIT</option>
+			<option value="599">GVNS</option>
+			<option value="604">H.BART</option>
+			<option value="605">H.CLE</option>
+			<option value="613">H.MAN</option>
+			<option value="606">H.REC</option>
+			<option value="614">H.S.ENG</option>
+			<option value="616">H.UT</option>
+			<option value="608">H.WAIT</option>
+			<option value="609">HKCL</option>
+			<option value="603">HMAN</option>
+			<option value="611">HTSS</option>
+			<option value="617">ILU</option>
+			<option value="730">INSP</option>
+			<option value="618">J.CMA</option>
+			<option value="621">J.ETO</option>
+			<option value="671">J.RAD</option>
+			<option value="619">JWRL</option>
+			<option value="622">K.UTI</option>
+			<option value="625">LBSN</option>
+			<option value="240">LIMPIADOR</option>
+			<option value="628">LKEE</option>
+			<option value="626">LMTM</option>
+			<option value="624">LUNDRY</option>
+			<option value="637">M-CO</option>
+			<option value="638">M-SDPO</option>
+			<option value="635">M.BLK</option>
+			<option value="636">M.TNK</option>
+			<option value="629">MAG</option>
+			<option value="644">MED.O</option>
+			<option value="292">MIGRATION- RSA</option>
+			<option value="321">MIGRATION-2/O/JDPO</option>
+			<option value="314">MIGRATION-AB/CR</option>
+			<option value="162">MIGRATION-ARTISTA</option>
+			<option value="319">MIGRATION-C/O/SDPO</option>
+			<option value="125">MIGRATION-CHIEF ENGINEER BULK</option>
+			<option value="327">MIGRATION-ENGINE CLEANER</option>
+			<option value="177">MIGRATION-MECAMAR</option>
+			<option value="166">MIGRATION-OFF. STWD</option>
+			<option value="241">MIGRATION-PATRON PORTUARIO</option>
+			<option value="232">MIGRATION-POTMAN</option>
+			<option value="178">MIGRATION-RECEPTION SUP</option>
+			<option value="176">MIGRATION-SKIPPER</option>
+			<option value="642">MMN</option>
+			<option value="643">MN1</option>
+			<option value="639">MN2</option>
+			<option value="640">MNM</option>
+			<option value="634">MSSG</option>
+			<option value="731">MST/1OFF</option>
+			<option value="656">MTM/ETO</option>
+			<option value="630">MTR</option>
+			<option value="648">MUSIC</option>
+			<option value="649">N.COOK</option>
+			<option value="650">N.STWD</option>
+			<option value="651">N.UTI</option>
+			<option value="652">NURSE</option>
+			<option value="654">O.MESS</option>
+			<option value="732">OBS Spv.</option>
+			<option value="667">P.MST</option>
+			<option value="658">PANG</option>
+			<option value="661">PATMAN</option>
+			<option value="664">PIAN</option>
+			<option value="665">PILT</option>
+			<option value="666">PLUM</option>
+			<option value="669">PPRR</option>
+			<option value="670">PSR</option>
+			<option value="657">PTR</option>
+			<option value="562">R.COOK</option>
+			<option value="673">RECEPT</option>
+			<option value="675">REDER</option>
+			<option value="681">RIG</option>
+			<option value="680">RIGME</option>
+			<option value="682">RNECK</option>
+			<option value="725">RP.COOK</option>
+			<option value="724">RP.REST</option>
+			<option value="678">RPMAN</option>
+			<option value="683">RTBT</option>
+			<option value="691">S ELECT</option>
+			<option value="710">S.CAT</option>
+			<option value="558">S.CLNR</option>
+			<option value="587">S.ETO</option>
+			<option value="711">S.HOST</option>
+			<option value="707">S.INTENT</option>
+			<option value="712">S.LIMP</option>
+			<option value="684">S.OFF</option>
+			<option value="672">S.RAD</option>
+			<option value="701">S.RECEPT</option>
+			<option value="713">S.RECEPT</option>
+			<option value="704">S.STORE</option>
+			<option value="699">SBFTT</option>
+			<option value="690">SBSN</option>
+			<option value="700">SCARG</option>
+			<option value="706">SCARG/SUPERN</option>
+			<option value="688">SECR</option>
+			<option value="689">SER.U</option>
+			<option value="692">SFITT</option>
+			<option value="695">SHIP.FIT</option>
+			<option value="697">SHOPG</option>
+			<option value="662">SKPR</option>
+			<option value="694">SSO</option>
+			<option value="705">STOREM</option>
+			<option value="708">SUPERN</option>
+			<option value="715">T. ENG</option>
+			<option value="716">TUTOR</option>
+			<option value="718">U.MAN</option>
+			<option value="717">U.MTM</option>
+			<option value="719">WTR</option>
+			<option value="720">YMAN</option>
+			<option value="1">MASTER</option>
+			<option value="2">COFF</option>
+			<option value="51">2OFF</option>
+			<option value="52">3OFF</option>
+			<option value="5">4OFF</option>
+			<option value="72">JOFF</option>
+			<option value="12">CENG</option>
+			<option value="54">1ENG</option>
+			<option value="13">2ENG</option>
+			<option value="14">3ENG</option>
+			<option value="53">4ENG</option>
+			<option value="68">ENG</option>
+			<option value="60">JENG</option>
+			<option value="17">ETO</option>
+			<option value="41">ELEC</option>
+			<option value="58">MECH</option>
+			<option value="67">PMAN</option>
+			<option value="75">BOSUN</option>
+			<option value="50">FRMAN</option>
+			<option value="59">AB</option>
+			<option value="39">GP</option>
+			<option value="10">OS</option>
+			<option value="19">FITTER</option>
+			<option value="20">MMAN</option>
+			<option value="25">OILER</option>
+			<option value="24">WELDER</option>
+			<option value="26">WIPER</option>
+			<option value="69">CHCOOK</option>
+			<option value="22">COOK</option>
+			<option value="23">STW</option>
+			<option value="28">MESSM</option>
+			<option value="30">MSI</option>
+			<option value="11">DCAD</option>
+			<option value="21">ECAD</option>
+			<option value="29">Other</option>
+				</select>
+	</td>
+</tr>
+<tr>
+	<th>On date</th>
+	<td>
+		<table class="empty">
+		<tbody><tr>
+			<td><input class="input-0" name="on_date_from" id="on_date_from" value="" maxlength="10"></td><td>
+			</td><td><input type="button" class="button-cal" onclick="showCalendar('on_date_from')"></td>
+			<td><input class="input-0" name="on_date_to" id="on_date_to" value="" maxlength="10"></td>
+			<td><input type="button" class="button-cal" onclick="showCalendar('on_date_to')"></td>
+		</tr>
+		</tbody></table>
+	 </td>
+</tr>
+<tr>
+	<th>Experience total</th>
+	<td>
+		<!-- <input class="input-0" style="width: 20px" name="experience_year" id="experience_year" value="" />year -->
+		<input class="input-0" style="width: 25px" name="experience_month_from" id="experience_month_from" value=""> -
+		<input class="input-0" style="width: 25px" name="experience_month_to" id="experience_month_to" value="">months
+		<label title="Experience with others Seaservice search fields"><input type="checkbox" class="cb" name="is_experience_where" id="is_experience_where" value="1">filtered</label>
+		<!-- <input class="input-0" style="width: 20px" name="experience_day" id="experience_day" value="" />days -->
+	</td>
+</tr>
+<tr>
+	<th>State</th>
+	<td>
+		<select class="select-1" name="employment_state" id="employment_state">
+		<option value="">-</option>
+						<option value="1">Planned</option>
+				<option value="2">Joining</option>
+				<option value="3">Onboard</option>
+				<option value="4">Sign Off</option>
+				<option value="5">Canceled</option>
+						</select>
+	</td>
+</tr>
+<tr>
+	<th>Client</th>
+	<td>
+		<input type="hidden" name="empl_client_id" id="empl_client_id" value="">
+		<input class="input-2 ui-autocomplete-input" name="empl_client_name" id="empl_client_name" value="" autocomplete="off">
+	</td>
+</tr>
+<tr>
+	<th>Owner</th>
+	<td>
+		<input class="input-2 ui-autocomplete-input" name="owner_name" id="owner_name" value="" autocomplete="off">
+	</td>
+</tr>
+<tr>
+	<th>Vessel type</th>
+	<td>
+		<input class="input-2 ui-autocomplete-input" name="vessel_type" id="vessel_type" value="" autocomplete="off">
+	<!-- 	<select class="select-2" name="vessel_type_id" id="vessel_type_id">
+		<option value="0">-</option>
+						<option value="170" >AHT</option>
+				<option value="226" >Anti-Pollution</option>
+				<option value="177" >ASD</option>
+				<option value="207" >ATS</option>
+				<option value="224" >Buoy-Laying Vessel</option>
+				<option value="213" >CHE/OIL PRODUCTS TANKER</option>
+				<option value="175" >DSV</option>
+				<option value="222" >Exhibition Ship</option>
+				<option value="200" >FAST FERRY</option>
+				<option value="206" >FLOTEL</option>
+				<option value="228" >Fruit Juice Refrigerated</option>
+				<option value="214" >HIGH SPEED CRAFT</option>
+				<option value="227" >Hopper Dredger</option>
+				<option value="225" >Hospital Ship</option>
+				<option value="180" >IBSV</option>
+				<option value="186" >LNG</option>
+				<option value="191" >MADERERO</option>
+				<option value="210" >MAINTENANCE SUPPORT VESSEL</option>
+				<option value="220" >Motor Hopper</option>
+				<option value="185" >OCV</option>
+				<option value="178" >OSV</option>
+				<option value="218" >Patrol Vessel</option>
+				<option value="217" >Pleasure Craft</option>
+				<option value="219" >Pollution Control Vessel</option>
+				<option value="172" >PSV</option>
+				<option value="181" >ROV</option>
+				<option value="223" >SAR</option>
+				<option value="182" >SDW</option>
+				<option value="183" >Shoalbuster</option>
+				<option value="184" >SSDV</option>
+				<option value="216" >Utility Vessel</option>
+				<option value="212" >VEGETABLE OIL TNK</option>
+				<option value="113" >AHTS</option>
+				<option value="110" >Barge</option>
+				<option value="123" >Bitumen Tanker</option>
+				<option value="152" >Bulk carrier</option>
+				<option value="132" >Cable layer</option>
+				<option value="8" >CarCarrier</option>
+				<option value="141" >Cement Carrier</option>
+				<option value="18" >Chemical Tanker</option>
+				<option value="118" >Oil Tanker</option>
+				<option value="7" >Container</option>
+				<option value="133" >Crane vessel</option>
+				<option value="147" >Crew Boat</option>
+				<option value="153" >Cruise Ship</option>
+				<option value="26" >Dredger</option>
+				<option value="122" >Drilling Rig</option>
+				<option value="124" >Drillship</option>
+				<option value="33" >DSV</option>
+				<option value="2" >Dry Cargo </option>
+				<option value="116" >Emergency Rescue (ERRV)</option>
+				<option value="115" >Ferry</option>
+				<option value="164" >Fish Factory ship</option>
+				<option value="6" >Fishing</option>
+				<option value="131" >Fishing Protection (FPV)</option>
+				<option value="127" >FPSO</option>
+				<option value="137" >FSIV DPI</option>
+				<option value="104" >Gas Tanker</option>
+				<option value="13" >General Cargo</option>
+				<option value="140" >Guard Vessel</option>
+				<option value="154" >Harbour Tug</option>
+				<option value="25" >Heavylift</option>
+				<option value="161" >Hydrographic</option>
+				<option value="16" >Ice-breaker</option>
+				<option value="145" >Jack-Up Barge</option>
+				<option value="139" >Landing Craft</option>
+				<option value="28" >Lash</option>
+				<option value="23" >Lifestock carrier</option>
+				<option value="105" >Lo-Ro</option>
+				<option value="22" >LPG</option>
+				<option value="15" >Minesweeper</option>
+				<option value="149" >Mooring Boat</option>
+				<option value="106" >Multipurpose</option>
+				<option value="20" >OBO</option>
+				<option value="121" >Oil Platform</option>
+				<option value="19" >Oil Tanker</option>
+				<option value="32" >Other</option>
+				<option value="11" >Passenger</option>
+				<option value="148" >Pilot Boat</option>
+				<option value="142" >Pipe Carier/Pipelay</option>
+				<option value="1" >Reefer</option>
+				<option value="24" >Research/Survey Vessel</option>
+				<option value="162" >Rock Carrier</option>
+				<option value="129" >Ro-Lo</option>
+				<option value="120" >Ro-Pax</option>
+				<option value="3" >Ro-Ro</option>
+				<option value="29" >Sailing</option>
+				<option value="17" >Salvor</option>
+				<option value="130" >Seismic Support</option>
+				<option value="14" >Seismograph</option>
+				<option value="159" >Split.Hopper barge</option>
+				<option value="165" >Stand by vessel</option>
+				<option value="108" >Supply Vessel</option>
+				<option value="31" >Tanker</option>
+				<option value="5" >Trawler</option>
+				<option value="30" >Tug</option>
+				<option value="128" >Yacht</option>
+				<option value="138" >Vehicle Carrier</option>
+				<option value="158" >Well boat</option>
+				<option value="163" >WFSV</option>
+						</select> -->
+	</td>
+</tr>
+<tr> 
+    <th>Shipbuilder</th> 
+    <td>
+		<input type="hidden" name="vessel_builder_id" id="vessel_builder_id" value="">
+		<input class="input-2 ui-autocomplete-input" name="vessel_builder" id="vessel_builder" value="" autocomplete="off">
+	</td> 
+</tr> 
+<tr> 
+	<th>LOA</th> 
+	<td><input type="text" class="input-0" style="width: 25px" id="vessel_length_from" name="vessel_length_from" value="" maxlength="20">-<input type="text" class="input-0" style="width: 25px" id="vessel_length_to" name="vessel_length_to" value="" maxlength="20">m Length overall</td> 
+</tr>	 
+<tr>
+	<th>Engine type</th>
+	<td>
+		<select class="select-2" name="engine_id" id="engine_id">
+		<option value="0">-</option>
+						<option value="79">CAT&nbsp;</option>
+				<option value="75">CAT 3516&nbsp;</option>
+				<option value="78">CAT 360&nbsp;</option>
+				<option value="71">Daihatsu&nbsp;</option>
+				<option value="77">EMD&nbsp;</option>
+				<option value="81">KUMERA&nbsp;</option>
+				<option value="80">MACH&nbsp;</option>
+				<option value="83">NINGBO DIESE&nbsp;</option>
+				<option value="74">Rolls-Royce&nbsp;</option>
+				<option value="84">Schottel&nbsp;</option>
+				<option value="82">WAUKESHA&nbsp;</option>
+				<option value="85">ZIBO DIESEL ENGINE&nbsp;</option>
+				<option value="14">6NVD&nbsp;</option>
+				<option value="53">ABC&nbsp;</option>
+				<option value="12">Akasaka&nbsp;</option>
+				<option value="2">B&amp;W&nbsp;</option>
+				<option value="43">BERGEN&nbsp;</option>
+				<option value="63">C 32&nbsp;</option>
+				<option value="59">CAT-3306&nbsp;</option>
+				<option value="61">CAT-3412E&nbsp;</option>
+				<option value="17">CATERPILLER&nbsp;</option>
+				<option value="39">Cummins&nbsp;</option>
+				<option value="60">D12D-C MH&nbsp;</option>
+				<option value="51">DC Electro Motor&nbsp;</option>
+				<option value="10">Deutz&nbsp;</option>
+				<option value="28">Wichmann&nbsp;</option>
+				<option value="1">Diesel&nbsp;</option>
+				<option value="15">FIAT&nbsp;</option>
+				<option value="29">Frichs&nbsp;</option>
+				<option value="27">GMT&nbsp;</option>
+				<option value="34">Hanshin&nbsp;</option>
+				<option value="62">KTA 19-M4&nbsp;</option>
+				<option value="57">KTA 50 M2 (HX)&nbsp;</option>
+				<option value="4">MAK&nbsp;</option>
+				<option value="3">MAN&nbsp;</option>
+				<option value="54">MAN-B&amp;W&nbsp;</option>
+				<option value="56">MDDCF-5935846&nbsp;</option>
+				<option value="37">MIRRLEES BLACKSTONE&nbsp;</option>
+				<option value="7">Mitsubishi&nbsp;</option>
+				<option value="55">Niigata&nbsp;</option>
+				<option value="58">NIIGATA-6MG28HX&nbsp;</option>
+				<option value="26">Nohab - Polar&nbsp;</option>
+				<option value="11">Other&nbsp;</option>
+				<option value="8">Pilstick&nbsp;</option>
+				<option value="24">POTAR&nbsp;</option>
+				<option value="25">RD&nbsp;</option>
+				<option value="16">KOBE DIESEL&nbsp;</option>
+				<option value="21">RUSTON&nbsp;</option>
+				<option value="22">SKL&nbsp;</option>
+				<option value="20">SKODA&nbsp;</option>
+				<option value="9">Steam Turbine&nbsp;</option>
+				<option value="23">STORK&nbsp;</option>
+				<option value="6">Sulzer&nbsp;</option>
+				<option value="42">Ulstein Aquamaster&nbsp;</option>
+				<option value="19">VOLVO&nbsp;</option>
+				<option value="5">Wartsila&nbsp;</option>
+				<option value="18">YANMAR&nbsp;</option>
+				<option value="30">Hyundai&nbsp;</option>
+				<option value="41">8NVD&nbsp;</option>
+				<option value="46">Ulstein Bergen&nbsp;</option>
+				<option value="48">Industrie&nbsp;</option>
+				<option value="64">MWM&nbsp;</option>
+				<option value="65">BW-ALPHA&nbsp;</option>
+				<option value="66">Blackstone&nbsp;</option>
+				<option value="67">Alpha&nbsp;</option>
+				<option value="68">BOLNES&nbsp;</option>
+				<option value="69">Callesen&nbsp;</option>
+				<option value="70">Grenaa Diesel&nbsp;</option>
+						</select>
+	</td>
+</tr>
+<tr>
+	<th>DWT</th>
+	<td><input class="input-0" name="dwt_from" value=""> - <input class="input-0" name="dwt_to" value=""></td>
+</tr>
+<tr> 
+	<th>Pumping system</th> 
+	<td> <select class="select-2" id="vessel_pump" name="vessel_pump"> 
+	    <option value="">-</option> 
+	    <option value="23">Centrifugal&nbsp;</option><option value="24">Framo&nbsp;</option><option value="29">Reciprocating Pump&nbsp;</option><option value="30">Screw pump&nbsp;</option><option value="31">Gear pump&nbsp;</option><option value="32">Piston pump&nbsp;</option><option value="33">Ram type pump&nbsp;</option><option value="34">Vane pump&nbsp;</option><option value="35">Centrifugal pumps&nbsp;</option><option value="36">Axial flow pumps&nbsp;</option><option value="37">Submersible pump&nbsp;</option><option value="38">Centrifugal-axial (mixed) pump&nbsp;</option> 
+	  </select></td> 
+</tr> 
+<tr> 
+	<th>Cargo handllng gear</th> 
+	<td> <select class="select-2" id="vessel_gear" name="vessel_gear"> 
+	    <option value="">-</option> 
+	    <option value="25">2 Cranes&nbsp;</option><option value="26">3 Cranes&nbsp;</option><option value="27">4 Cranes&nbsp;</option><option value="28">Gearless&nbsp;</option><option value="39">lifting gear&nbsp;</option><option value="40">conveyor belt&nbsp;</option><option value="41">elevator&nbsp;</option><option value="42">derrick&nbsp;</option><option value="43">fork lift truck&nbsp;</option><option value="44">mobile crane&nbsp;</option><option value="45">straddle carrier&nbsp;</option><option value="46">tractor&nbsp;</option><option value="47">front/side loader&nbsp;</option><option value="48">van carrier&nbsp;</option><option value="49">dockside crane&nbsp;</option><option value="50">quay crane&nbsp;</option><option value="51">container crane&nbsp;</option><option value="52">gantry crane&nbsp;</option><option value="53">deck crane&nbsp;</option> 
+	  </select></td> 
+</tr> 
+<tr>
+	<th>Engine power</th>
+	<td><input class="input-0" name="engine_power_from" value=""> - <input class="input-0" name="engine_power_to" value=""> kW</td>
+</tr>
+<tr> 
+	<th>Operation type</th> 
+    <td> <select class="select-2" id="vessel_operation_id" name="vessel_operation_id"> 
+        <option value="0">-</option> 
+         
+      </select>
+    </td>  
+</tr>
+</tbody></table>
+
+<table class="form" id="">
+<tbody><tr>
+	<td colspan="4" class="section">CERTS/DOCUMENTS</td>
+</tr>
+
+<tr>
+	<td colspan="4">
+		<input type="text" class="input-3 ui-autocomplete-input" style="width:85%" name="f_cert_search" id="f_cert_search" value="" autocomplete="off">  
+		<img src="/static/images/info.png" height="13" alt="" title="Free text search: cert name, number, country name or issuer">
+	</td>
+</tr>
+<tr>
+	<th>Add Name</th>
+	<td colspan="4">
+		<input type="text" class="input-2 ui-autocomplete-input" name="f_cert_select" id="f_cert_select" value="" autocomplete="off">  
+		<img src="/static/images/info.png" height="13" alt="" title="Choose cert name">
+		<!--  OR enter cert number, name or issuer
+		<input type="hidden" name='f_cert_id' id='f_cert_id' value="" />
+		<input type="text" class="input-3" name="f_cert_name" id="f_cert_name" value="" /> 
+		<input type="text" size="3" name="f_cert_country_code" id="f_cert_country_code" value="" />
+		-->
+	</td>
+</tr>
+</tbody></table>
+
+<table class="form" id="cert_table">
+<tbody><tr>
+	<td class="button ">
+		<input type="button" class="button-href" value="Settings" onclick="$('#option_table').show()">
+	</td>
+	<td class="button" colspan="4">
+	<input type="submit" value="Search" onclick="loader();">
+	</td>
+</tr>
+
+</tbody></table>
+
+<table class="form" id="option_table" style="display:none">
+<tbody><tr><td colspan="4" class="section">Search Settings</td></tr>
+<tr>
+	<th>Add</th>
+	<td nowrap="">
+		<input type="text" class="input-2" name="f_save_name" id="f_save_name" value="">  
+		<input type="button" value="Save search" onclick="$('#form_action').val('save_search');this.form.submit();">
+	</td>
+</tr>
+<tr>
+	<th>Load</th>
+	<td nowrap="">
+		<select class="select-1" name="f_save_load" id="f_save_load">
+		<option value="0">-</option>
+				</select> 
+		<input type="button" value="Load" onclick="$('#form_action').val('load_search');this.form.submit();">
+		<input type="button" value="Remove" onclick="if(confirm('Are you sure?')){$('#form_action').val('delete_search');this.form.submit();}">
+	</td>
+</tr>
+<tr><td colspan="4" class="subsection"></td></tr>
+
+</tbody></table>
+
+</form>
+</div>
+
+<div id="big">
+
+<form method="post" action="" id="list_form">
+<input type="hidden" id="form_action_2" name="form_action" value="save_sms">
+
+<table class="list" id="search_list">
+<tbody><tr>
+	<td class="section" colspan="6"></td>
+	<td class="section r" colspan="5"></td>
+</tr>
+<tr>
+	<th style="width: 5px">Sea-<br>service</th>
+	<th class="sorting" id="rank">Rank<img alt="sort" src="/static/images/sort.gif" border="0"></th>
+	<th class="sorting" id="seaman" style="width: 30%;">Seafarer<img alt="sort" src="/static/images/sort.gif" border="0"></th>
+	<th class="sorting" id="dob" _nowrap="">Date of birth<img alt="sort" src="/static/images/sort.gif" border="0"></th>
+	<th>Age</th>
+	<th class="sorting" id="country" nowrap=""><img alt="sort" src="/static/images/sort.gif" border="0"></th>
+	<th class="sorting" id="availabe" style="width: 40%">Availability<img alt="sort" src="/static/images/sort.gif" border="0"></th>
+	<th><input type="checkbox" class="cb" onclick="check_all(this.checked)"><!-- <input type="checkbox" class="cb" onClick="$('.seaman_cb').attr('checked', this.checked);" /> --></th>
+</tr>
+</tbody><tbody>
+<tr id="row_110594" class="" seaman_id="110594">
+	<td><input type="button" value="view" onclick="view_seaservice('110594')"></td>
+	<td nowrap="">F/W</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=110594"> DYACHKOV VIKTOR</a></td>
+	<td>08.09.1974</td>
+	<td>51</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="110594" name="add_seaman_id[110594]" id="add_seaman_id_110594"></td>
+</tr>
+<tr id="row_110585" class="even" seaman_id="110585">
+	<td><input type="button" value="view" onclick="view_seaservice('110585')"></td>
+	<td nowrap="">3OFF</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=110585"> GERMAN RUSLAN</a></td>
+	<td></td>
+	<td></td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="110585" name="add_seaman_id[110585]" id="add_seaman_id_110585"></td>
+</tr>
+<tr id="row_110248" class="" seaman_id="110248">
+	<td><input type="button" value="view" onclick="view_seaservice('110248')"></td>
+	<td nowrap="">BOSUN</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=110248"> KOLGANOV MAKSYM</a></td>
+	<td>06.06.1985</td>
+	<td>40</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="110248" name="add_seaman_id[110248]" id="add_seaman_id_110248"></td>
+</tr>
+<tr id="row_109395" class="even" seaman_id="109395">
+	<td><input type="button" value="view" onclick="view_seaservice('109395')"></td>
+	<td nowrap="">COFF</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=109395"> RUDENKO IGOR</a></td>
+	<td>03.11.1964</td>
+	<td>61</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="109395" name="add_seaman_id[109395]" id="add_seaman_id_109395"></td>
+</tr>
+<tr id="row_110509" class="" seaman_id="110509">
+	<td><input type="button" value="view" onclick="view_seaservice('110509')"></td>
+	<td nowrap="">F/W</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=110509"> SASI GRIGORII</a></td>
+	<td>28.01.1988</td>
+	<td>38</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="110509" name="add_seaman_id[110509]" id="add_seaman_id_110509"></td>
+</tr>
+<tr id="row_107732" class="even" seaman_id="107732">
+	<td><input type="button" value="view" onclick="view_seaservice('107732')"></td>
+	<td nowrap="">4ENG</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=107732">1 </a></td>
+	<td></td>
+	<td></td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="107732" name="add_seaman_id[107732]" id="add_seaman_id_107732"></td>
+</tr>
+<tr id="row_120400" class="" seaman_id="120400">
+	<td><input type="button" value="view" onclick="view_seaservice('120400')"></td>
+	<td nowrap="">3OFF</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=120400">1 1</a></td>
+	<td>16.11.1971</td>
+	<td>54</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+					04.11.2019																					</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="120400" name="add_seaman_id[120400]" id="add_seaman_id_120400"></td>
+</tr>
+<tr id="row_114762" class="even" seaman_id="114762">
+	<td><input type="button" value="view" onclick="view_seaservice('114762')"></td>
+	<td nowrap="">MMAN</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=114762">Abakumov Mykola</a></td>
+	<td>17.12.1988</td>
+	<td>37</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+					11.04.2018																					</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="114762" name="add_seaman_id[114762]" id="add_seaman_id_114762"></td>
+</tr>
+<tr id="row_119413" class="" seaman_id="119413">
+	<td><input type="button" value="view" onclick="view_seaservice('119413')"></td>
+	<td nowrap="">AB</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=119413">Abashyn Denys</a></td>
+	<td>29.05.1992</td>
+	<td>34</td>
+	<td>UKR </td>
+	<td><strong>planned</strong>
+							<a href="/vessel/plan?vessel_id=2462" target="_blank">DENIA CIUTAT CREATIVA D&amp;E</a>
+				(BALEARIA EUROLINEAS MARITIMAS)							</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="119413" name="add_seaman_id[119413]" id="add_seaman_id_119413"></td>
+</tr>
+<tr id="row_146720" class="even" seaman_id="146720">
+	<td><input type="button" value="view" onclick="view_seaservice('146720')"></td>
+	<td nowrap="">MMAN</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=146720">Abdrashytov Rostislav</a></td>
+	<td></td>
+	<td></td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="146720" name="add_seaman_id[146720]" id="add_seaman_id_146720"></td>
+</tr>
+<tr id="row_107236" class="" seaman_id="107236">
+	<td><input type="button" value="view" onclick="view_seaservice('107236')"></td>
+	<td nowrap="">MASTER</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=107236">ABIREMTSEV ANDRIY</a></td>
+	<td>01.09.1972</td>
+	<td>53</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+					10.04.2017																					</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="107236" name="add_seaman_id[107236]" id="add_seaman_id_107236"></td>
+</tr>
+<tr id="row_145995" class="even" seaman_id="145995">
+	<td><input type="button" value="view" onclick="view_seaservice('145995')"></td>
+	<td nowrap="">ETO</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=145995">ABLAKATOV KOSTYANTYN</a></td>
+	<td>12.07.1992</td>
+	<td>33</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="145995" name="add_seaman_id[145995]" id="add_seaman_id_145995"></td>
+</tr>
+<tr id="row_144607" class="" seaman_id="144607">
+	<td><input type="button" value="view" onclick="view_seaservice('144607')"></td>
+	<td nowrap="">2OFF</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=144607">Abliazimov Server</a></td>
+	<td>08.04.1997</td>
+	<td>29</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+					20.10.2025																					</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="144607" name="add_seaman_id[144607]" id="add_seaman_id_144607"></td>
+</tr>
+<tr id="row_117328" class="even" seaman_id="117328">
+	<td><input type="button" value="view" onclick="view_seaservice('117328')"></td>
+	<td nowrap="">2OFF</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=117328">Abramenko Sergiy</a></td>
+	<td>11.05.1975</td>
+	<td>51</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+					10.02.2019																					</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="117328" name="add_seaman_id[117328]" id="add_seaman_id_117328"></td>
+</tr>
+<tr id="row_141620" class="" seaman_id="141620">
+	<td><input type="button" value="view" onclick="view_seaservice('141620')"></td>
+	<td nowrap="">2OFF</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=141620">Abramov Abramov</a></td>
+	<td>29.01.1966</td>
+	<td>60</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="141620" name="add_seaman_id[141620]" id="add_seaman_id_141620"></td>
+</tr>
+<tr id="row_121131" class="even" seaman_id="121131">
+	<td><input type="button" value="view" onclick="view_seaservice('121131')"></td>
+	<td nowrap="">MIGRATION-CHIEF ENGINEER BULK</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=121131">ABRAMOV ANDRIY</a></td>
+	<td>15.03.1967</td>
+	<td>59</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+					20.01.2020																					</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="121131" name="add_seaman_id[121131]" id="add_seaman_id_121131"></td>
+</tr>
+<tr id="row_119954" class="" seaman_id="119954">
+	<td><input type="button" value="view" onclick="view_seaservice('119954')"></td>
+	<td nowrap="">MASTER</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=119954">ABRAMOV OLEG</a></td>
+	<td>14.09.1962</td>
+	<td>63</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+					26.09.2019																					</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="119954" name="add_seaman_id[119954]" id="add_seaman_id_119954"></td>
+</tr>
+<tr id="row_106041" class="even" seaman_id="106041">
+	<td><input type="button" value="view" onclick="view_seaservice('106041')"></td>
+	<td nowrap="">2OFF</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=106041">ACHKASOV VADYM</a></td>
+	<td>09.04.1985</td>
+	<td>41</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="106041" name="add_seaman_id[106041]" id="add_seaman_id_106041"></td>
+</tr>
+<tr id="row_119158" class="" seaman_id="119158">
+	<td><input type="button" value="view" onclick="view_seaservice('119158')"></td>
+	<td nowrap="">MASTER</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=119158">ACHKASOV VADYM</a></td>
+	<td>01.04.1985</td>
+	<td>41</td>
+	<td>UKR </td>
+	<td><strong>planned</strong>
+							<a href="/vessel/plan?vessel_id=2346" target="_blank">IOANNIS I</a>
+				(MARFLET MARINE S.A)							</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="119158" name="add_seaman_id[119158]" id="add_seaman_id_119158"></td>
+</tr>
+<tr id="row_149537" class="even" seaman_id="149537">
+	<td><input type="button" value="view" onclick="view_seaservice('149537')"></td>
+	<td nowrap="">CENG</td>
+	<td><a href="/seaman?view_mode=edit&amp;seaman_id=149537">Adambayev Daniyorbek</a></td>
+	<td>19.05.1990</td>
+	<td>36</td>
+	<td>UKR </td>
+	<td><strong>available</strong>
+																										</td>
+	<td class="c"><input type="checkbox" class="cb seaman_cb" seaman_id="149537" name="add_seaman_id[149537]" id="add_seaman_id_149537"></td>
+</tr>
+</tbody>
+<!-- 	<td >
+			</td> -->
+<!--	<td nowrap>  </td>-->
+</table>
+<table class="list">
+<tbody><tr>
+	<td class="subsection" colspan="3">
+			<b>Total: 5058</b> records
+		&nbsp;
+		<input type="button" value="Select All" onclick="if(confirm('This will add all 5058 seafares to Selected list!')){$('#'+'form_action').val('select_all');$('#'+'search_form').submit();}">
+		<!-- 
+		&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<a href="/?mod=200&amp;offset=20&amp;surname=&amp;name=&amp;rank_id=0&amp;empl_rank_id=&amp;status=&amp;country_code=UKR&amp;primary_office_id=&amp;religion_id=&amp;order_by=&amp;order_type=&amp;taxation_id_code=&amp;check_city=&amp;check_country_code=&amp;check_country_name=&amp;gender=&amp;f_lang_id=&amp;f_level=&amp;f_from_date=&amp;f_to_date=&amp;from_age=&amp;to_age=&amp;f_birth_day=&amp;f_birth_month=&amp;f_available_from_date=&amp;f_available_to_date=&amp;f_updates_from_date=&amp;f_updates_to_date=&amp;f_send_from_date=&amp;f_send_to_date=&amp;primary_client_name=&amp;primary_agent=&amp;f_last_client_name=&amp;empl_client_name=&amp;search_country=&amp;search_county=&amp;search_city=&amp;search_street=&amp;search_phone=&amp;old_id=&amp;is_term_agreed=0&amp;vessel_name=&amp;my_favorite_vessels=&amp;f_vessel_flag=&amp;owner_name=&amp;vessel_type=&amp;vessel_type_id=&amp;engine_id=0&amp;employment_state=&amp;on_date_from=&amp;on_date_to=&amp;is_experience_where=&amp;experience_month_from=&amp;experience_month_to=&amp;experience_day=&amp;vessel_builder_id=&amp;vessel_builder=&amp;vessel_length_from=&amp;vessel_length_to=&amp;vessel_operation_id=&amp;vessel_pump=&amp;vessel_gear=&amp;dwt_from=&amp;dwt_to=&amp;engine_power_from=&amp;engine_power_to=&amp;f_cert_select=&amp;f_cert_search=&amp;show_active=1&amp;show_seaman=1&amp;show_skills=1&amp;show_details=1&amp;show_address=1&amp;show_seaservice=1&amp;page_no=&amp;f_limit=20&amp;curoffset=0">&raquo;&nbsp;&raquo;&nbsp;&raquo;</a>
+	 -->
+	</td>
+	<td class="subsection " colspan="3">
+					Records per Page:
+		<select class="select-0" style="width:40px" name="rec_per_page" id="rec_per_page" onchange="$('#f_limit').val($(this).val());$('#search_form').submit()">
+			<option value="">	</option>
+			<option value="20">20</option>
+			<option value="40">40</option>
+			<option value="60">60</option>
+			<option value="80">80</option>
+		</select>
+		</td>
+	<td class="subsection r" colspan="4">
+<!-- 
+		<input type="submit"  value="Add to SMS list" onclick="$('#list_form').submit();" />
+			<input type="button" onclick="$('#form_action_2').val('send_email');$('#list_form').submit();" value="Send e-mail"/>
+		<a href="/user/sms">Send SMS</a>
+		 -->
+		&nbsp; &nbsp; &nbsp;
+		<span id="checked_seaman">
+
+
+
+
+ 
+<!--  checked_list -->
+ 
+<span id="show_checked_id" style="cursor: pointer; border: 1px solid #616161; padding: 2px 6px 2px 6px">Selected: 295</span>
+
+<script type="text/javascript" language="JavaScript">
+
+ 
+	$(function() {
+		$('#'+"top_layer").empty();
+	});
+	$('#'+'show_checked_id').click(function(){
+		$('#'+"top_layer").load('/seaman/?render=direct&action=show_search_list');
+	});
+ 
+
+</script> 
+
+ 
+
+
+ 
+
+</span>
+	</td>
+</tr>
+</tbody></table>
+<table class="list">
+<tbody><tr>
+	<td class="_button" colspan="10">
+		
+
+
+<!-- ==================== ======================= -->
+
+<style type="text/css" media="all">
+/*
+#container_page {
+    width: 80px;
+    margin: 0 auto;
+    padding-left: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px; 
+    color: #aaa;
+    font-size: .875em;
+}
+*/
+.pagination {
+    max-width: 300px;
+	text-align: center;
+	/*
+    background: #f2f2f2;
+	*/
+    padding: 5px;
+    _margin-bottom: 20px;
+	 margin-left:auto;
+	 margin-right:auto;
+}
+
+.page {
+    display: inline-block;
+    padding: 0px 9px;
+    margin-right: 4px;
+    border-radius: 3px;
+    border: solid 1px #c0c0c0;
+    background: #e9e9e9;
+    box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1);
+    font-size: .875em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #717171;
+    text-shadow: 0px 1px 0px rgba(255,255,255, 1);
+}
+.empty {
+    border: 0;
+    background: none;
+    border-radius: 0px;
+    box-shadow: inset 0px 0px 0px rgba(255,255,255, .8), 0px 0px 0px rgba(0,0,0, .1);
+/*
+*/
+}
+
+.page:hover, .page.gradient:hover {
+    background: #fefefe;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FEFEFE), to(#f0f0f0));
+    background: -moz-linear-gradient(0% 0% 270deg,#FEFEFE, #f0f0f0);
+}
+
+.page.active {
+    border: none;
+    background: #616161;
+    box-shadow: inset 0px 0px 8px rgba(0,0,0, .5), 0px 1px 0px rgba(255,255,255, .8);
+    color: #f0f0f0;
+    text-shadow: 0px 0px 3px rgba(0,0,0, .5);
+}
+
+.page.gradient {
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f8f8f8), to(#e9e9e9));
+    background: -moz-linear-gradient(0% 0% 270deg,#f8f8f8, #e9e9e9);
+}
+
+.pagination.dark {
+    background: #414449;
+    color: #feffff;
+}
+
+.page.dark {
+    border: solid 1px #32373b;
+    background: #3e4347;
+    box-shadow: inset 0px 1px 1px rgba(255,255,255, .1), 0px 1px 3px rgba(0,0,0, .1);
+    color: #feffff;
+    text-shadow: 0px 1px 0px rgba(0,0,0, .5);
+}
+
+.page.dark:hover, .page.dark.gradient:hover {
+    background: #3d4f5d;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#547085), to(#3d4f5d));
+    background: -moz-linear-gradient(0% 0% 270deg,#547085, #3d4f5d);
+}
+
+.page.dark.active {
+    border: none;
+    background: #2f3237;
+    box-shadow: inset 0px 0px 8px rgba(0,0,0, .5), 0px 1px 0px rgba(255,255,255, .1);
+}
+
+.page.dark.gradient {
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#565b5f), to(#3e4347));
+    background: -moz-linear-gradient(0% 0% 270deg,#565b5f, #3e4347);
+}
+</style>
+
+<div class="pagination">
+
+	 <div style="display: inline-block;width: 62px">&nbsp;</div>
+			<div style="display: inline-block;width: 30px">&nbsp;</div>
+		<!--  -->
+	
+	<span class="page active">1</span>
+
+			<a class="page" href="/search?offset=20&amp;&amp;mod=200&amp;form_action=search&amp;f_limit=20&amp;show_active=1&amp;country_code=UKR"> »</a>
+		<span class="page empty">...</span>
+		<!--  -->
+			<a class="page" href="/search?offset=5040&amp;&amp;mod=200&amp;form_action=search&amp;f_limit=20&amp;show_active=1&amp;country_code=UKR">253 </a>
+	
+</div>
+
+
+ 
+
+ 
+		
+	</td>
+</tr>
+</tbody></table>
+
+<!-- <div id="right_button" style="position: fixed;top: 100px;left:81%; width: 100px; vertical-align:top;display:"> -->
+<div id="right_button" style="vertical-align: top; left: 1030px; top: 75px; position: fixed; width: 100px;">
+
+	<b>Print:</b>
+	<input type="button" style="width: 100px" onclick="$('#form_action').val('address_xls');$('#search_form').submit();" value="Address xls">
+
+</div>
+
+</form>
+<div id="loader" style="display: none; text-align: center; ">
+<br>
+<img src="/static/images/ajax-loader.gif" alt="loader"><br> 
+Searching the database!<br>
+&nbsp;
+</div>
+
+<!-- 
+<span id="checked_seaman_list"></span>
+ -->
+
+<!-- Where to load seaservice data-->
+<div id="top_layer" style="position:relative; top:-50; left:5; color:red; z-index:4"></div>
+
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+});
+
+// change relation cb
+$('#status').change(function(){
+	// console.log("--", $('option:selected', this).attr('is_active'));
+	if($('option:selected', this).attr('is_active')==0)
+	{
+		$('#show_active').prop("checked", "");
+		$('#show_active').prop("disabled", "true");
+	}
+	else if($(this).val()>0)
+	{
+		$('#show_active').prop("checked", "true");
+		$('#show_active').prop("disabled", "");
+	}
+	else
+	{
+		$('#show_active').prop("disabled", "");
+	}
+} );
+
+$('#rec_per_page').val("20");
+$('#primary_office_id').val("");
+$('#religion_id').val("");
+$('#vessel_operation_id').val("");
+$('#'+'empl_rank_id').val("");
+$('#'+'f_lang_id').val("");
+$('#'+'f_level').val("");
+$('#'+'employment_state').val("");
+$('#'+'vessel_builder_id').val("");
+$('#'+'status').val("");
+$('#'+'vessel_pump').val("");
+$('#'+'vessel_gear').val("");
+
+$('#status').change();
+//$('#'+'gender').val("");
+
+set_autocomplete("owner_name", "/home?action=client_suggest&amp;render=direct", "client_id");
+set_autocomplete("vessel_builder", "/home?action=client_suggest&amp;render=direct", "vessel_builder_id");
+set_autocomplete("primary_client_name", "/home?action=client_suggest&amp;render=direct");
+set_autocomplete("empl_client_name", "/home?action=client_suggest&amp;render=direct", "empl_client_id");
+set_autocomplete("primary_agent", "/home?action=client_suggest&amp;render=direct");
+set_autocomplete("f_last_client_name", "/home?action=client_suggest&amp;render=direct", "last_client_id");
+set_autocomplete("vessel_name", "/vessel?action=vessel_suggest&amp;render=direct", "vessel_id");
+//set_autocomplete("f_cert_country_code", "/home?render=direct&action=country_suggest" );
+//set_autocomplete("f_cert_name", "/home?render=direct&action=cert_suggest", 'f_cert_id');
+set_autocomplete("country_code", "/home?render=direct&action=country_suggest&is_all=1" );
+set_autocomplete("search_country", "/home?render=direct&action=country_suggest" );
+set_autocomplete("f_vessel_flag", "/home?render=direct&action=country_suggest" );
+set_autocomplete("f_cert_search", "/home?render=direct&action=country_suggest&type=name" );
+//set_autocomplete("f_cert_search", "/home?render=direct&action=cert_suggest" );
+
+set_autocomplete_cert("f_cert_select", "/home?render=direct&action=cert_suggest");
+
+
+
+
+// change relation cb
+$('#status').change(function(){
+	if($('option:selected', this).attr('is_active')==0)
+	{
+		$('#show_active').prop("checked", "");
+		$('#show_active').prop("disabled", "true");
+	}
+	else
+	{
+		$('#show_active').prop("checked", "true");
+		$('#show_active').prop("disabled", "");
+	}
+} );
+
+$('.skill_group').change(function(){
+	add_skill( $(this).val() );
+	$(this).val("");
+	
+	$( ".ref_del" ).click(function(){
+	//	var nr=$(this).prop("row_no");
+		$(this).parent().remove();
+	});  
+} );
+
+	 
+$(function() {
+	//$(document).tooltip();
+	
+	
+});  
+
+//$('#list_form tbody tr').tooltip( {
+$(document).tooltip( {
+      items: "[seaman_id], [title]",
+	  content: function() {
+        var el = $( this );
+        if ( el.is( "[seaman_id]" ) ) 
+        // seaman row hoover
+        {
+        	var seaman=$("<div>").attr("id", "hover_"+el.attr( "seaman_id" ))
+			seaman.html('<img src="/static/images/ajax-loader.gif" alt="loader" />');
+			$.get("/seaman?render=direct&view_mode=hover_data&seaman_id="+el.attr( "seaman_id" ), function(data){ 
+				seaman.html(data); 				
+			})
+			return seaman; 
+        }
+        else
+	    	return  el.attr( "title" );
+		}
+	 });
+
+function add_skill(group_id, skill_id, skill_level)
+{
+	if (! group_id) group_id="";
+	if (! skill_id) skill_id="0";
+	if (! skill_level) skill_level="0";
+	
+	
+	var table_row = $("#skill_row");
+//	nr = table.find('tr').length;
+	nr = $('.c_skill').length;
+	nr = group_id+"_"+nr;
+	var row = $("<tr>").prop("class", "t_row-"+nr); 
+//	row.prop("row_nr", nr);
+
+//console.log(nr);
+	table_row.after(row);
+//	table.find("tr.skill_"+id).after(row);
+	
+	var cell;
+	//if ((nr)%2 ==0)
+	//if ((table.find('.button-delete').length)%2 ==0)
+	//	row.addClass("even");
+	
+	cell =  $("<td>").appendTo(row);
+	cell.prop("colspan", "2");
+	e=insert_form_element_2("select", "skill_id["+nr+"]", skill_id, cell, 'c_list_'+group_id, 'select-2 c_skill');
+	e.prop("id", "skill_id"+"_"+nr);
+	
+//	cell =  $("<td>").appendTo(row);
+	cell.append(" ");
+	e=insert_form_element_2("select", "skill_level["+nr+"]", skill_level, cell, 'evaluation_list_'+group_id, 'select-1');
+	e.prop("id", "skill_level"+"_"+nr);
+	
+//	cell =  $("<td>").appendTo(row);
+	e=insert_form_element_2("button", "", "", cell, '', 'button-delete');
+	e.prop("row_no", nr);
+	e.addClass("ref_del");
+	e=insert_form_element_2("hidden", "skill_group_id["+nr+"]", group_id, cell, '', '');
+}
+/*
+//$("#btn_additional").click(function(e));
+function additional_rank(rank_id)
+{
+	if(!rank_id) rank_id="0";
+	
+	var table_row = $("#rank_id").parent().parent();
+	nr = $('.add_rank_del').length;
+	var row = $("<tr>").prop("class", "t_row-"+nr);
+	table_row.after(row);
+	cell =  $("<td>").appendTo(row);
+	cell.addClass("r");
+	cell.prop("colspan", "2");
+	
+//	$("#add_rank_td").show();
+//	cell = $('#add_rank_td');"add_rank_td"
+//	e=insert_form_element("select", "add_rank_id["+nr+"]", rank_id, cell, "rank_id", "select-1");
+	e=insert_form_element_2("select", "add_rank_id["+nr+"]", rank_id, cell, 'rank_id', 'select-1'); 
+//	e=insert_form_element("button", "", "", "add_rank_td", "", "button-delete add_rank_del"); 
+	e=insert_form_element_2("button", "", "", cell, '', 'button-delete add_rank_del');  
+	
+	$(".add_rank_del").click(function(){
+		$(this).parent().remove();
+	//alert("bb");
+		//$(this).closest('select').remove();
+	});
+}
+*/
+function loader()
+{
+	$('#form_action').val("search");
+	$('#loader').css("display", "block");
+}
+
+$('#available').val('');
+
+// ----- vessel_type --------
+	$(function() {
+		var availableTags = [
+					"AHT", 
+					"Anti-Pollution", 
+					"ASD", 
+					"ATS", 
+					"Buoy-Laying Vessel", 
+					"CHE/OIL PRODUCTS TANKER", 
+					"DSV", 
+					"Exhibition Ship", 
+					"FAST FERRY", 
+					"FLOTEL", 
+					"Fruit Juice Refrigerated", 
+					"HIGH SPEED CRAFT", 
+					"Hopper Dredger", 
+					"Hospital Ship", 
+					"IBSV", 
+					"LNG", 
+					"MADERERO", 
+					"MAINTENANCE SUPPORT VESSEL", 
+					"Motor Hopper", 
+					"OCV", 
+					"OSV", 
+					"Patrol Vessel", 
+					"Pleasure Craft", 
+					"Pollution Control Vessel", 
+					"PSV", 
+					"ROV", 
+					"SAR", 
+					"SDW", 
+					"Shoalbuster", 
+					"SSDV", 
+					"Utility Vessel", 
+					"VEGETABLE OIL TNK", 
+					"AHTS", 
+					"Barge", 
+					"Bitumen Tanker", 
+					"Bulk carrier", 
+					"Cable layer", 
+					"CarCarrier", 
+					"Cement Carrier", 
+					"Chemical Tanker", 
+					"Oil Tanker", 
+					"Container", 
+					"Crane vessel", 
+					"Crew Boat", 
+					"Cruise Ship", 
+					"Dredger", 
+					"Drilling Rig", 
+					"Drillship", 
+					"DSV", 
+					"Dry Cargo ", 
+					"Emergency Rescue (ERRV)", 
+					"Ferry", 
+					"Fish Factory ship", 
+					"Fishing", 
+					"Fishing Protection (FPV)", 
+					"FPSO", 
+					"FSIV DPI", 
+					"Gas Tanker", 
+					"General Cargo", 
+					"Guard Vessel", 
+					"Harbour Tug", 
+					"Heavylift", 
+					"Hydrographic", 
+					"Ice-breaker", 
+					"Jack-Up Barge", 
+					"Landing Craft", 
+					"Lash", 
+					"Lifestock carrier", 
+					"Lo-Ro", 
+					"LPG", 
+					"Minesweeper", 
+					"Mooring Boat", 
+					"Multipurpose", 
+					"OBO", 
+					"Oil Platform", 
+					"Oil Tanker", 
+					"Other", 
+					"Passenger", 
+					"Pilot Boat", 
+					"Pipe Carier/Pipelay", 
+					"Reefer", 
+					"Research/Survey Vessel", 
+					"Rock Carrier", 
+					"Ro-Lo", 
+					"Ro-Pax", 
+					"Ro-Ro", 
+					"Sailing", 
+					"Salvor", 
+					"Seismic Support", 
+					"Seismograph", 
+					"Split.Hopper barge", 
+					"Stand by vessel", 
+					"Supply Vessel", 
+					"Tanker", 
+					"Trawler", 
+					"Tug", 
+					"Yacht", 
+					"Vehicle Carrier", 
+					"Well boat", 
+					"WFSV", 
+				];
+		function split( val ) {
+			return val.split( /;\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+
+		$( "#vessel_type" )
+			// don't navigate away from the field on tab when selecting an item
+			.bind( "keydown", function( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB &&
+						$( this ).data( "autocomplete" ).menu.active ) {
+					event.preventDefault();
+				}
+			})
+			.autocomplete({
+				minLength: 0,
+				source: function( request, response ) {
+					// delegate back to autocomplete, but extract the last term
+					response( $.ui.autocomplete.filter(
+						availableTags, extractLast( request.term ) ) );
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( "; " );
+					return false;
+				}
+			});
+	});
+
+function expand_search(name) 
+{
+	if($("#table_"+name).html()=="")
+		$.get("/search?render=direct&view_mode="+name, function(data){ $("#table_"+name).after(data); })
+	expand_table_config("table_"+name, "d_search_show_"+name);
+}
+function expand_seaman() 
+{
+	expand_table_config("table_seaman","d_search_show_seaman");
+}
+function expand_address() 
+{
+	expand_table_config("table_address","d_search_show_address");
+}
+function expand_seaservice() 
+{
+	expand_table_config("table_seaservice","d_search_show_seaservice");
+}
+function set_autocomplete_cert(field_id, url, field_set_id, country_code)
+{
+$( "#"+field_id  ).autocomplete({
+	source: function(request, response_func)
+	{
+		$.getJSON(url, 
+			{ name: request.term }, 
+			function(json){	{response_func(json);} }
+		);
+	},
+	minLength: 2,
+	selectFirst: true,
+	close: function( event, ui ) {
+		$('#'+field_id).val('');
+	//	$('#'+field_id).empty();
+	 },
+	select: function( event, ui ) 
+	{
+		add_f_cert(ui.item.id, ui.item.name);
+
+		return true;
+	}
+});
+}
+function add_f_cert(id, name, country, is_valid) 
+{
+	if (! id) id="";
+	if (! name) name="";
+	if (! country) country="";
+	if (! is_valid) is_valid="";
+
+	var cell;
+	prefix='';
+
+	table = getElement("cert_table");
+	nr = table.rows.length;
+	row = table.insertRow(table.rows.length-1);
+
+	row_id="row-"+nr;
+	row.setAttribute("id",row_id);
+
+//	cell =  insert_th(row, name);
+//	cell.style.width = "80%";
+	cell =  insert_cell(row, "r");
+	cell.innerHTML=""+name+"";
+
+	cell =  insert_cell(row);
+	e=insert_form_element("text", prefix+"f_cert_country_code["+nr+"]",country,cell,'','input-0');
+	e.id = prefix+"f_cert_country_code"+"_"+nr;	
+	e.style.width = "30px";
+	e.setAttribute("title", "Issue Country");
+	set_autocomplete(prefix+"f_cert_country_code"+"_"+nr, "/home?render=direct&action=country_suggest" );
+
+	cell =  insert_cell(row);
+	cell.setAttribute("nowrap", "nowrap");
+	e=insert_form_element("checkbox", prefix+"f_cert_is_valid["+nr+"]",is_valid,cell,'','cb');
+	e.id = prefix+"f_cert_is_valid"+"_"+nr;	
+	if(is_valid=='1')
+		e.setAttribute("checked", "checked");
+	cell.innerHTML+="Valid";
+
+	cell =  insert_cell(row);
+	e=insert_form_element("button", '', "", cell, '', 'button-delete');
+	e.id = prefix+"cert_delete"+"_"+nr;	
+	e.setAttribute("onclick", "$('#row-"+nr+"').remove();");
+//	$("#"+prefix+"cert_delete"+"_"+nr).click(function(){		
+	//	});   
+
+	e=insert_form_element("hidden", prefix+"f_cert_id["+nr+"]",id,cell,'','');
+	e=insert_form_element("hidden", prefix+"f_cert_name["+nr+"]",name,cell,'','');
+}
+	// -------- google address --------
+
+	var placeSearch, autocomplete, address_list=[];
+	var componentForm = {
+        locality: 'long_name',// city
+        country: 'long_name',// country_code
+        country_code: 'short_name',// country_code
+      };
+      
+	function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete( (document.getElementById('location_autocomplete')), {types: ['geocode']} );
+
+	   autocomplete.addListener('place_changed', fillInAddress);
+	   // prevent not submit form
+	var input = document.getElementById('location_autocomplete');
+	  google.maps.event.addDomListener(input, 'keydown', function(event) { 
+	    if (event.keyCode === 13) { 
+	        event.preventDefault(); 
+	    }
+	  }); 
+      }
+			
+    function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+       // console.log(place);
+		
+		$(".fill_field").val('');
+
+        for (var component in componentForm) {
+            address_list[component]='';
+        }
+        // make result array
+        if(place.address_components)
+        for (var i = 0; i < place.address_components.length; i++) 
+        {
+          var addressType = place.address_components[i].types[0];
+          if (componentForm[addressType]) 
+            address_list[addressType]=place.address_components[i][componentForm[addressType]];
+		}
+		
+		$("#"+"check_city").val(address_list["locality"]);
+		$("#"+"check_country_name_fld").html("("+address_list["country"]+")");
+		$("#"+"check_country_name").val(address_list["country"]);
+		$("#"+"check_country_code").html(address_list["country_code"]);
+		
+		
+		// get country code 3
+	  if(address_list["country"])
+		$.getJSON("home?render=direct&action=country_suggest&name="+address_list["country"] , 
+			function(data){	
+				if(data[0].value)
+					$("#"+"check_country_code").val(data[0].value);
+				else
+					console.log(data);
+		});
+		// log request- seamna/address
+		$.post("/?mod=308&render=direct&action=add_log&view_mode=search" );
+	  
+      }
+
+
+$(function() {
+	show_checked_cnt('checked_seaman', "top_layer");
+	
+	if($('#right_button').length>0)
+	{
+		var e=$('#right_button');
+		var left=$('#big').width()+$('#small').width()+30;
+		
+		if($(window).width() >= left+100)
+		{
+	//alert($(window).width()+" "+left+100);
+			e.css("left", left );
+			e.css("top", $('#big').css("top") );
+			e.css("position", "fixed" );
+			e.css("width", 100 );
+			
+		}
+		
+	}
+});
+
+function view_seaservice(seaman_id)
+{
+	$('#top_layer').html('<img src="/static/images/ajax-loader.gif" alt="loader" />');
+	$('#top_layer').load('/helper/seaservice/?render=helper&seaman_id='+seaman_id);
+	$('.ative_class').removeClass("ative_class");
+	$('#'+'row_'+seaman_id).addClass("ative_class");
+	//setTimeout(function(){	location.href='#top_layer';	}, 1000*0.5); // 1 sec * 
+	//$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+}
+
+function check_all(is_checked)
+{
+	if(is_checked) is_checked=1;
+	else		is_checked=0;
+
+	var seaman_list='';
+
+	$('#'+'checked_seaman').append('<img src="/static/images/ajax-loader.gif" alt="loader" />');
+	$('.seaman_cb').prop('checked', is_checked);
+	$('.seaman_cb').each(function( index ) {
+		if(seaman_list)
+			seaman_list+=',';
+		seaman_list+=$(this).attr('seaman_id');
+	//	var seaman_id=$(this).attr('seaman_id');
+	//	check_seaman(seaman_id, is_checked);
+	});
+	if(seaman_list)
+		$.post( "/search?render=direct&form_action=save_check_list&check_seaman_ids="+seaman_list+"&is_checked="+is_checked, 
+		function( data ) 
+		{
+		  if (data === "saved")
+		  {
+			show_checked_cnt('checked_seaman', "top_layer");
+		  }
+		  else
+			  alert(data);  
+		});
+}
+
+$('.seaman_cb').click(function(){
+	var is_checked=0;
+	if($(this).is(':checked')) is_checked=1;
+	var seaman_id=$(this).attr('seaman_id');
+	//check_seaman(seaman_id, is_checked);
+	$.post( "/search?render=direct&form_action=save_check&check_seaman_id="+seaman_id+"&is_checked="+is_checked, 
+	function( data ) 
+	{
+	  if (data === "saved")
+	  {
+		show_checked_cnt('checked_seaman', "top_layer");
+	  }
+	  else
+		  alert(data);
+	   
+	});
+
+});
+
+$(".sorting").append('<img alt="sort" src="/static/images/sort.gif" border="0" />');
+$(".sorting").click(function(){
+	var id = $(this).attr('id');
+	if($(this).hasClass('active') && $("#"+"order_type").val()!="desc")
+		$("#"+"order_type").val("desc");
+	else
+		$("#"+"order_type").val("");
+	
+	$("#"+"order_by").val(id);
+	$("#"+"search_form").submit();
+//	alert('aa'+id);
+});
+
+
+</script>
+    <script async="" defer="" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjdUcM647oKGAfXaE8S8pv-F8JeRULTZw&amp;libraries=places&amp;callback=initAutocomplete"></script>
+        
+
+</td>
+</tr>
+</tbody></table><ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-2" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-3" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-4" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-5" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-6" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-7" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-8" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-9" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-10" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-11" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-12" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div role="log" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div style="display: none;"><div><img src="/static/images/ajax-loader.gif" alt="loader"></div></div><div style="display: none;"><div><img src="/static/images/ajax-loader.gif" alt="loader"></div></div><div style="display: none;"><div><img src="/static/images/ajax-loader.gif" alt="loader"></div></div><div style="display: none;"><div><img src="/static/images/ajax-loader.gif" alt="loader"></div></div><div><div><img src="/static/images/ajax-loader.gif" alt="loader"></div></div></div>
+
+<script type="text/javascript">
+
+// timeout=60*5*1000;
+timeout=60*15*1000;
+start_system_keepalive({
+	intervalMs: timeout,
+	pulseSelector: ".curruser_td"
+});
+
+ 
+	
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+if (!window.uiLoader) {
+	window.uiLoader = {
+		_count: 0,
+		show: function() {
+			this._count++;
+			$('#global_line_loader').show();
+		},
+		hide: function() {
+			this._count = Math.max(0, this._count - 1);
+			if (this._count === 0) $('#global_line_loader').hide();
+		},
+		reset: function() {
+			this._count = 0;
+			$('#global_line_loader').hide();
+		}
+	};
+	$(document).ajaxStart(function(){ window.uiLoader.show(); });
+	$(document).ajaxComplete(function(){ window.uiLoader.hide(); });
+	$(document).ajaxError(function(){ window.uiLoader.hide(); });
+}
+	
+
+});
+</script>
+
+
+<div id="system_dialog" title="" style="display:none;"></div>
+
+
+
+<script>
+if (document.location.host!='candina'+'.crewinspector.com')
+{
+	$(".curruser_td").css("background-color", '#66CC99');
+	$(".curruser_td").html("This is backup site. candina ");
+	
+}
+
+
+
+</script>
+
+<ul id="ui-id-13" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div class="pac-container pac-logo" style="display: none;"></div></body>
