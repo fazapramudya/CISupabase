@@ -434,7 +434,7 @@ with col_heat:
 st.markdown("---")
 st.markdown('<div class="section-header">Candidate Records</div>', unsafe_allow_html=True)
 
-search = st.text_input("Search by name, surname, rank, or city", placeholder="e.g. Master, Manila, John…")
+search = st.text_input("Search by name, surname, rank, city, or email", placeholder="e.g. Master, Manila, john@email.com…")
 
 display_df = df[["seaman_id", "surname", "name", "rank", "relation", "country", "city", "email", "phone", "mobile", "imported_at"]].copy()
 display_df = display_df.rename(columns={
@@ -457,6 +457,7 @@ if search:
         | display_df["Name"].str.contains(search, case=False, na=False)
         | display_df["Rank"].str.contains(search, case=False, na=False)
         | display_df["City"].str.contains(search, case=False, na=False)
+        | display_df["Email"].str.contains(search, case=False, na=False)
     )
     display_df = display_df[mask]
 

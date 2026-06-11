@@ -256,7 +256,6 @@ async def main() -> None:
     print(f"Countries to process: {len(country_list)}\n")
 
     ok_count      = 0
-    skip_count    = 0
     no_btn_count  = 0
     fail_count    = 0
 
@@ -291,12 +290,10 @@ async def main() -> None:
 
             if code in LARGE_COUNTRIES:
                 print(f"  [{i:3}/{len(country_list)}] SKIP  {cname:<40} ({code}) – too large, use dedicated script")
-                skip_count += 1
                 continue
 
-            if dest.exists():
+            if dest.exists() and "--force" not in sys.argv:
                 print(f"  [{i:3}/{len(country_list)}] SKIP  {cname:<40} ({code}) – already downloaded")
-                skip_count += 1
                 continue
 
             print(f"  [{i:3}/{len(country_list)}] {cname:<40} ({code}) ...", end=" ", flush=True)
@@ -323,7 +320,6 @@ async def main() -> None:
 
     print(f"\n=== Done ===")
     print(f"  Downloaded : {ok_count}")
-    print(f"  Skipped    : {skip_count}  (file already existed)")
     print(f"  No results : {no_btn_count}  (button not shown)")
     print(f"  Failed     : {fail_count}")
     print(f"  Saved to   : {DOWNLOAD_DIR.resolve()}")
